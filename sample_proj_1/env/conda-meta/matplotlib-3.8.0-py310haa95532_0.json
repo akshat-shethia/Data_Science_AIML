@@ -1,0 +1,36 @@
+{
+  "build": "py310haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "matplotlib-base >=3.8.0,<3.8.1.0a0",
+    "pyqt >=5",
+    "python >=3.10,<3.11.0a0",
+    "tornado >=5"
+  ],
+  "extracted_package_dir": "C:\\miniconda\\pkgs\\matplotlib-3.8.0-py310haa95532_0",
+  "files": [
+    ".nonadmin"
+  ],
+  "fn": "matplotlib-3.8.0-py310haa95532_0.conda",
+  "license": "LicenseRef-PSF-based",
+  "link": {
+    "source": "C:\\miniconda\\pkgs\\matplotlib-3.8.0-py310haa95532_0",
+    "type": 1
+  },
+  "md5": "02bd458fbf1f1c9c6736c20ef948939e",
+  "name": "matplotlib",
+  "package_tarball_full_path": "C:\\miniconda\\pkgs\\matplotlib-3.8.0-py310haa95532_0.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "cb122addeac0f7b23025ad67001f4a59e67d060d5926c3ebced287f895be1413",
+  "size": 8718,
+  "subdir": "win-64",
+  "timestamp": 1698692834000,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/matplotlib-3.8.0-py310haa95532_0.conda",
+  "version": "3.8.0"
+}

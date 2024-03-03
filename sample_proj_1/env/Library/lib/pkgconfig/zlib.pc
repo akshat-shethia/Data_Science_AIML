@@ -1,0 +1,13 @@
+prefix=C:/miniconda/MINICONDA_WORKSPACE/sample_proj_1/env/Library
+exec_prefix=C:/miniconda/MINICONDA_WORKSPACE/sample_proj_1/env/Library
+libdir=C:/miniconda/MINICONDA_WORKSPACE/sample_proj_1/env/Library/lib
+sharedlibdir=C:/miniconda/MINICONDA_WORKSPACE/sample_proj_1/env/Library/lib
+includedir=C:/miniconda/MINICONDA_WORKSPACE/sample_proj_1/env/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
