@@ -30,7 +30,7 @@ Throughout my learning journey, I'll be using the following essential tools and 
 ## Usage 📝
 
 Feel free to explore the contents of this repository. You can clone the repository to your local machine using the following command:
-git clone https://github.com/your-username/data-science-ai-ml.git You can then navigate through the directories and open the files using your preferred tools or environments.
+git clone [https://github.com/your-username/data-science-ai-ml.git](https://github.com/akshat-shethia/Data_Science_AIML.git) You can then navigate through the directories and open the files using your preferred tools or environments.
 
 ## Contribution 🤝
 
