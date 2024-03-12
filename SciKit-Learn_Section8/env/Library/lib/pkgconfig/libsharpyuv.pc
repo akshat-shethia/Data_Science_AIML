@@ -1,0 +1,11 @@
+prefix=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/webp
+
+Name: libsharpyuv
+Description: Library for sharp RGB to YUV conversion
+Version: 1.3.2
+Cflags: -I${includedir}
+Libs: -L${libdir} -llibsharpyuv
+Libs.private:   

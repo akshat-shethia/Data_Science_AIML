@@ -1,0 +1,13 @@
+prefix=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library
+exec_prefix=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library
+libdir=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library/lib
+sharedlibdir=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library/lib
+includedir=c:/miniconda/MINICONDA_WORKSPACE/SciKit-Learn_Section8/env/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
