@@ -7,7 +7,7 @@ import functools
 
 from time import monotonic as _time
 from _weakrefset import WeakSet
-from itertools import count as _count
+from itertools import islice as _islice, count as _count
 try:
     from _collections import deque as _deque
 except ImportError:
@@ -28,29 +28,13 @@ __all__ = ['get_ident', 'active_count', 'Condition', 'current_thread',
            'Event', 'Lock', 'RLock', 'Semaphore', 'BoundedSemaphore', 'Thread',
            'Barrier', 'BrokenBarrierError', 'Timer', 'ThreadError',
            'setprofile', 'settrace', 'local', 'stack_size',
-           'excepthook', 'ExceptHookArgs', 'gettrace', 'getprofile',
-           'setprofile_all_threads','settrace_all_threads']
+           'excepthook', 'ExceptHookArgs']
 
 # Rename some stuff so "from threading import *" is safe
 _start_new_thread = _thread.start_new_thread
-_daemon_threads_allowed = _thread.daemon_threads_allowed
 _allocate_lock = _thread.allocate_lock
 _set_sentinel = _thread._set_sentinel
 get_ident = _thread.get_ident
-try:
-    _is_main_interpreter = _thread._is_main_interpreter
-except AttributeError:
-    # See https://github.com/python/cpython/issues/112826.
-    # We can pretend a subinterpreter is the main interpreter for the
-    # sake of _shutdown(), since that only means we do not wait for the
-    # subinterpreter's threads to finish.  Instead, they will be stopped
-    # later by the mechanism we use for daemon threads.  The likelihood
-    # of this case is small because rarely will the _thread module be
-    # replaced by a module without _is_main_interpreter().
-    # Furthermore, this is all irrelevant in applications
-    # that do not use subinterpreters.
-    def _is_main_interpreter():
-        return True
 try:
     get_native_id = _thread.get_native_id
     _HAVE_THREAD_NATIVE_ID = True
@@ -76,46 +60,20 @@ def setprofile(func):
 
     The func will be passed to sys.setprofile() for each thread, before its
     run() method is called.
+
     """
     global _profile_hook
     _profile_hook = func
-
-def setprofile_all_threads(func):
-    """Set a profile function for all threads started from the threading module
-    and all Python threads that are currently executing.
-
-    The func will be passed to sys.setprofile() for each thread, before its
-    run() method is called.
-    """
-    setprofile(func)
-    _sys._setprofileallthreads(func)
-
-def getprofile():
-    """Get the profiler function as set by threading.setprofile()."""
-    return _profile_hook
 
 def settrace(func):
     """Set a trace function for all threads started from the threading module.
 
     The func will be passed to sys.settrace() for each thread, before its run()
     method is called.
+
     """
     global _trace_hook
     _trace_hook = func
-
-def settrace_all_threads(func):
-    """Set a trace function for all threads started from the threading module
-    and all Python threads that are currently executing.
-
-    The func will be passed to sys.settrace() for each thread, before its run()
-    method is called.
-    """
-    settrace(func)
-    _sys._settraceallthreads(func)
-
-def gettrace():
-    """Get the trace function as set by threading.settrace()."""
-    return _trace_hook
 
 # Synchronization classes
 
@@ -252,13 +210,6 @@ class _RLock:
     def _is_owned(self):
         return self._owner == get_ident()
 
-    # Internal method used for reentrancy checks
-
-    def _recursion_count(self):
-        if self._owner != get_ident():
-            return 0
-        return self._count
-
 _PyRLock = _RLock
 
 
@@ -284,12 +235,18 @@ class Condition:
         # If the lock defines _release_save() and/or _acquire_restore(),
         # these override the default implementations (which just call
         # release() and acquire() on the lock).  Ditto for _is_owned().
-        if hasattr(lock, '_release_save'):
+        try:
             self._release_save = lock._release_save
-        if hasattr(lock, '_acquire_restore'):
+        except AttributeError:
+            pass
+        try:
             self._acquire_restore = lock._acquire_restore
-        if hasattr(lock, '_is_owned'):
+        except AttributeError:
+            pass
+        try:
             self._is_owned = lock._is_owned
+        except AttributeError:
+            pass
         self._waiters = _deque()
 
     def _at_fork_reinit(self):
@@ -430,16 +387,7 @@ class Condition:
         """
         self.notify(len(self._waiters))
 
-    def notifyAll(self):
-        """Wake up all threads waiting on this condition.
-
-        This method is deprecated, use notify_all() instead.
-
-        """
-        import warnings
-        warnings.warn('notifyAll() is deprecated, use notify_all() instead',
-                      DeprecationWarning, stacklevel=2)
-        self.notify_all()
+    notifyAll = notify_all
 
 
 class Semaphore:
@@ -459,11 +407,6 @@ class Semaphore:
             raise ValueError("semaphore initial value must be >= 0")
         self._cond = Condition(Lock())
         self._value = value
-
-    def __repr__(self):
-        cls = self.__class__
-        return (f"<{cls.__module__}.{cls.__qualname__} at {id(self):#x}:"
-                f" value={self._value}>")
 
     def acquire(self, blocking=True, timeout=None):
         """Acquire a semaphore, decrementing the internal counter by one.
@@ -523,7 +466,8 @@ class Semaphore:
             raise ValueError('n must be one or more')
         with self._cond:
             self._value += n
-            self._cond.notify(n)
+            for i in range(n):
+                self._cond.notify()
 
     def __exit__(self, t, v, tb):
         self.release()
@@ -547,13 +491,8 @@ class BoundedSemaphore(Semaphore):
     """
 
     def __init__(self, value=1):
-        super().__init__(value)
+        Semaphore.__init__(self, value)
         self._initial_value = value
-
-    def __repr__(self):
-        cls = self.__class__
-        return (f"<{cls.__module__}.{cls.__qualname__} at {id(self):#x}:"
-                f" value={self._value}/{self._initial_value}>")
 
     def release(self, n=1):
         """Release a semaphore, incrementing the internal counter by one or more.
@@ -571,7 +510,8 @@ class BoundedSemaphore(Semaphore):
             if self._value + n > self._initial_value:
                 raise ValueError("Semaphore released too many times")
             self._value += n
-            self._cond.notify(n)
+            for i in range(n):
+                self._cond.notify()
 
 
 class Event:
@@ -589,11 +529,6 @@ class Event:
         self._cond = Condition(Lock())
         self._flag = False
 
-    def __repr__(self):
-        cls = self.__class__
-        status = 'set' if self._flag else 'unset'
-        return f"<{cls.__module__}.{cls.__qualname__} at {id(self):#x}: {status}>"
-
     def _at_fork_reinit(self):
         # Private method called by Thread._reset_internal_locks()
         self._cond._at_fork_reinit()
@@ -602,16 +537,7 @@ class Event:
         """Return true if and only if the internal flag is true."""
         return self._flag
 
-    def isSet(self):
-        """Return true if and only if the internal flag is true.
-
-        This method is deprecated, use is_set() instead.
-
-        """
-        import warnings
-        warnings.warn('isSet() is deprecated, use is_set() instead',
-                      DeprecationWarning, stacklevel=2)
-        return self.is_set()
+    isSet = is_set
 
     def set(self):
         """Set the internal flag to true.
@@ -691,13 +617,6 @@ class Barrier:
         self._parties = parties
         self._state = 0  # 0 filling, 1 draining, -1 resetting, -2 broken
         self._count = 0
-
-    def __repr__(self):
-        cls = self.__class__
-        if self.broken:
-            return f"<{cls.__module__}.{cls.__qualname__} at {id(self):#x}: broken>"
-        return (f"<{cls.__module__}.{cls.__qualname__} at {id(self):#x}:"
-                f" waiters={self.n_waiting}/{self.parties}>")
 
     def wait(self, timeout=None):
         """Wait for the barrier.
@@ -833,9 +752,10 @@ class BrokenBarrierError(RuntimeError):
 
 
 # Helper to generate new thread names
-_counter = _count(1).__next__
-def _newname(name_template):
-    return name_template % _counter()
+_counter = _count().__next__
+_counter() # Consume 0 so first non-main thread has id 1.
+def _newname(template="Thread-%d"):
+    return template % _counter()
 
 # Active thread administration.
 #
@@ -892,7 +812,7 @@ class Thread:
         *name* is the thread name. By default, a unique name is constructed of
         the form "Thread-N" where N is a small decimal number.
 
-        *args* is a list or tuple of arguments for the target invocation. Defaults to ().
+        *args* is the argument tuple for the target invocation. Defaults to ().
 
         *kwargs* is a dictionary of keyword arguments for the target
         invocation. Defaults to {}.
@@ -905,24 +825,11 @@ class Thread:
         assert group is None, "group argument must be None for now"
         if kwargs is None:
             kwargs = {}
-        if name:
-            name = str(name)
-        else:
-            name = _newname("Thread-%d")
-            if target is not None:
-                try:
-                    target_name = target.__name__
-                    name += f" ({target_name})"
-                except AttributeError:
-                    pass
-
         self._target = target
-        self._name = name
+        self._name = str(name or _newname())
         self._args = args
         self._kwargs = kwargs
         if daemon is not None:
-            if daemon and not _daemon_threads_allowed():
-                raise RuntimeError('daemon threads are disabled in this (sub)interpreter')
             self._daemonic = daemon
         else:
             self._daemonic = current_thread().daemon
@@ -1006,7 +913,7 @@ class Thread:
 
         """
         try:
-            if self._target is not None:
+            if self._target:
                 self._target(*self._args, **self._kwargs)
         finally:
             # Avoid a refcycle if the thread is running a function with
@@ -1074,7 +981,13 @@ class Thread:
             except:
                 self._invoke_excepthook(self)
         finally:
-            self._delete()
+            with _active_limbo_lock:
+                try:
+                    # We don't call self._delete() because it also
+                    # grabs _active_limbo_lock.
+                    del _active[get_ident()]
+                except:
+                    pass
 
     def _stop(self):
         # After calling ._stop(), .is_alive() returns False and .join() returns
@@ -1250,54 +1163,20 @@ class Thread:
     def daemon(self, daemonic):
         if not self._initialized:
             raise RuntimeError("Thread.__init__() not called")
-        if daemonic and not _daemon_threads_allowed():
-            raise RuntimeError('daemon threads are disabled in this interpreter')
         if self._started.is_set():
             raise RuntimeError("cannot set daemon status of active thread")
         self._daemonic = daemonic
 
     def isDaemon(self):
-        """Return whether this thread is a daemon.
-
-        This method is deprecated, use the daemon attribute instead.
-
-        """
-        import warnings
-        warnings.warn('isDaemon() is deprecated, get the daemon attribute instead',
-                      DeprecationWarning, stacklevel=2)
         return self.daemon
 
     def setDaemon(self, daemonic):
-        """Set whether this thread is a daemon.
-
-        This method is deprecated, use the .daemon property instead.
-
-        """
-        import warnings
-        warnings.warn('setDaemon() is deprecated, set the daemon attribute instead',
-                      DeprecationWarning, stacklevel=2)
         self.daemon = daemonic
 
     def getName(self):
-        """Return a string used for identification purposes only.
-
-        This method is deprecated, use the name attribute instead.
-
-        """
-        import warnings
-        warnings.warn('getName() is deprecated, get the name attribute instead',
-                      DeprecationWarning, stacklevel=2)
         return self.name
 
     def setName(self, name):
-        """Set the name string for this thread.
-
-        This method is deprecated, use the name attribute instead.
-
-        """
-        import warnings
-        warnings.warn('setName() is deprecated, set the name attribute instead',
-                      DeprecationWarning, stacklevel=2)
         self.name = name
 
 
@@ -1345,10 +1224,6 @@ except ImportError:
         _print_exception(args.exc_type, args.exc_value, args.exc_traceback,
                          file=stderr)
         stderr.flush()
-
-
-# Original value of threading.excepthook
-__excepthook__ = excepthook
 
 
 def _make_invoke_excepthook():
@@ -1458,8 +1333,8 @@ class _MainThread(Thread):
 class _DummyThread(Thread):
 
     def __init__(self):
-        Thread.__init__(self, name=_newname("Dummy-%d"),
-                        daemon=_daemon_threads_allowed())
+        Thread.__init__(self, name=_newname("Dummy-%d"), daemon=True)
+
         self._started.set()
         self._set_ident()
         if _HAVE_THREAD_NATIVE_ID:
@@ -1492,16 +1367,7 @@ def current_thread():
     except KeyError:
         return _DummyThread()
 
-def currentThread():
-    """Return the current Thread object, corresponding to the caller's thread of control.
-
-    This function is deprecated, use current_thread() instead.
-
-    """
-    import warnings
-    warnings.warn('currentThread() is deprecated, use current_thread() instead',
-                  DeprecationWarning, stacklevel=2)
-    return current_thread()
+currentThread = current_thread
 
 def active_count():
     """Return the number of Thread objects currently alive.
@@ -1510,21 +1376,10 @@ def active_count():
     enumerate().
 
     """
-    # NOTE: if the logic in here ever changes, update Modules/posixmodule.c
-    # warn_about_fork_with_threads() to match.
     with _active_limbo_lock:
         return len(_active) + len(_limbo)
 
-def activeCount():
-    """Return the number of Thread objects currently alive.
-
-    This function is deprecated, use active_count() instead.
-
-    """
-    import warnings
-    warnings.warn('activeCount() is deprecated, use active_count() instead',
-                  DeprecationWarning, stacklevel=2)
-    return active_count()
+activeCount = active_count
 
 def _enumerate():
     # Same as enumerate(), but without the lock. Internal use only.
@@ -1579,7 +1434,7 @@ def _shutdown():
     # the main thread's tstate_lock - that won't happen until the interpreter
     # is nearly dead.  So we release it here.  Note that just calling _stop()
     # isn't enough:  other threads may already be waiting on _tstate_lock.
-    if _main_thread._is_stopped and _is_main_interpreter():
+    if _main_thread._is_stopped:
         # _shutdown() was already called
         return
 
@@ -1632,7 +1487,6 @@ def main_thread():
     In normal conditions, the main thread is the thread from which the
     Python interpreter was started.
     """
-    # XXX Figure this out for subinterpreters.  (See gh-75698.)
     return _main_thread
 
 # get thread-local implementation, either from the thread
@@ -1684,11 +1538,6 @@ def _after_fork():
                 # its new value since it can have changed.
                 thread._reset_internal_locks(True)
                 ident = get_ident()
-                if isinstance(thread, _DummyThread):
-                    thread.__class__ = _MainThread
-                    thread._name = 'MainThread'
-                    thread._daemonic = False
-                    thread._set_tstate_lock()
                 thread._ident = ident
                 new_active[ident] = thread
             else:

@@ -1,5 +1,3 @@
-/* Interface to random parts in ceval.c */
-
 #ifndef Py_CEVAL_H
 #define Py_CEVAL_H
 #ifdef __cplusplus
@@ -7,15 +5,7 @@ extern "C" {
 #endif
 
 
-PyAPI_FUNC(PyObject *) PyEval_EvalCode(PyObject *, PyObject *, PyObject *);
-
-PyAPI_FUNC(PyObject *) PyEval_EvalCodeEx(PyObject *co,
-                                         PyObject *globals,
-                                         PyObject *locals,
-                                         PyObject *const *args, int argc,
-                                         PyObject *const *kwds, int kwdc,
-                                         PyObject *const *defs, int defc,
-                                         PyObject *kwdefs, PyObject *closure);
+/* Interface to random parts in ceval.c */
 
 /* PyEval_CallObjectWithKeywords(), PyEval_CallObject(), PyEval_CallFunction
  * and PyEval_CallMethod are deprecated. Since they are officially part of the
@@ -31,7 +21,7 @@ Py_DEPRECATED(3.9) PyAPI_FUNC(PyObject *) PyEval_CallObjectWithKeywords(
 
 /* Deprecated since PyEval_CallObjectWithKeywords is deprecated */
 #define PyEval_CallObject(callable, arg) \
-    PyEval_CallObjectWithKeywords((callable), (arg), _PyObject_CAST(_Py_NULL))
+    PyEval_CallObjectWithKeywords(callable, arg, (PyObject *)NULL)
 
 Py_DEPRECATED(3.9) PyAPI_FUNC(PyObject *) PyEval_CallFunction(
     PyObject *callable, const char *format, ...);
@@ -76,6 +66,14 @@ PyAPI_FUNC(int) Py_GetRecursionLimit(void);
 
 PyAPI_FUNC(int) Py_EnterRecursiveCall(const char *where);
 PyAPI_FUNC(void) Py_LeaveRecursiveCall(void);
+
+#define Py_ALLOW_RECURSION \
+  do { unsigned char _old = PyThreadState_GET()->recursion_critical;\
+    PyThreadState_GET()->recursion_critical = 1;
+
+#define Py_END_ALLOW_RECURSION \
+    PyThreadState_GET()->recursion_critical = _old; \
+  } while(0);
 
 PyAPI_FUNC(const char *) PyEval_GetFuncName(PyObject *);
 PyAPI_FUNC(const char *) PyEval_GetFuncDesc(PyObject *);
@@ -158,7 +156,7 @@ PyAPI_FUNC(void) PyEval_ReleaseThread(PyThreadState *tstate);
 
 #ifndef Py_LIMITED_API
 #  define Py_CPYTHON_CEVAL_H
-#  include "cpython/ceval.h"
+#  include  "cpython/ceval.h"
 #  undef Py_CPYTHON_CEVAL_H
 #endif
 

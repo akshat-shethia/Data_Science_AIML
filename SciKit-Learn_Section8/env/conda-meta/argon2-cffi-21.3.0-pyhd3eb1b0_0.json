@@ -30,15 +30,15 @@
     "Lib/site-packages/argon2_cffi-21.3.0.dist-info/WHEEL",
     "Lib/site-packages/argon2_cffi-21.3.0.dist-info/direct_url.json",
     ".nonadmin",
-    "Lib/site-packages/argon2/__pycache__/__init__.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/__main__.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/_legacy.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/_password_hasher.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/_typing.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/_utils.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/exceptions.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/low_level.cpython-312.pyc",
-    "Lib/site-packages/argon2/__pycache__/profiles.cpython-312.pyc"
+    "Lib/site-packages/argon2/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/__main__.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/_legacy.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/_password_hasher.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/_typing.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/_utils.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/exceptions.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/low_level.cpython-39.pyc",
+    "Lib/site-packages/argon2/__pycache__/profiles.cpython-39.pyc"
   ],
   "fn": "argon2-cffi-21.3.0-pyhd3eb1b0_0.conda",
   "license": "MIT",
@@ -173,39 +173,39 @@
         "size_in_bytes": 85
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/__init__.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/__init__.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/__main__.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/__main__.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/_legacy.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/_legacy.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/_password_hasher.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/_password_hasher.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/_typing.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/_typing.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/_utils.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/_utils.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/exceptions.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/exceptions.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/low_level.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/low_level.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/argon2/__pycache__/profiles.cpython-312.pyc",
+        "_path": "Lib/site-packages/argon2/__pycache__/profiles.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

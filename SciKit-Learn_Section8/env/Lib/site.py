@@ -74,7 +74,6 @@ import os
 import builtins
 import _sitebuiltins
 import io
-import stat
 
 # Prefixes for site-packages; add additional prefixes like /usr/local here
 PREFIXES = [sys.prefix, sys.exec_prefix]
@@ -89,11 +88,6 @@ USER_SITE = None
 USER_BASE = None
 
 
-def _trace(message):
-    if sys.flags.verbose:
-        print(message, file=sys.stderr)
-
-
 def makepath(*paths):
     dir = os.path.join(*paths)
     try:
@@ -106,15 +100,8 @@ def makepath(*paths):
 def abs_paths():
     """Set all module __file__ and __cached__ attributes to an absolute path"""
     for m in set(sys.modules.values()):
-        loader_module = None
-        try:
-            loader_module = m.__loader__.__module__
-        except AttributeError:
-            try:
-                loader_module = m.__spec__.loader.__module__
-            except AttributeError:
-                pass
-        if loader_module not in {'_frozen_importlib', '_frozen_importlib_external'}:
+        if (getattr(getattr(m, '__loader__', None), '__module__', None) not in
+                ('_frozen_importlib', '_frozen_importlib_external')):
             continue   # don't mess with a PEP 302-supplied __file__
         try:
             m.__file__ = os.path.abspath(m.__file__)
@@ -170,25 +157,12 @@ def addpackage(sitedir, name, known_paths):
         reset = False
     fullname = os.path.join(sitedir, name)
     try:
-        st = os.lstat(fullname)
-    except OSError:
-        return
-    if ((getattr(st, 'st_flags', 0) & stat.UF_HIDDEN) or
-        (getattr(st, 'st_file_attributes', 0) & stat.FILE_ATTRIBUTE_HIDDEN)):
-        _trace(f"Skipping hidden .pth file: {fullname!r}")
-        return
-    _trace(f"Processing .pth file: {fullname!r}")
-    try:
-        # locale encoding is not ideal especially on Windows. But we have used
-        # it for a long time. setuptools uses the locale encoding too.
-        f = io.TextIOWrapper(io.open_code(fullname), encoding="locale")
+        f = io.TextIOWrapper(io.open_code(fullname))
     except OSError:
         return
     with f:
         for n, line in enumerate(f):
             if line.startswith("#"):
-                continue
-            if line.strip() == "":
                 continue
             try:
                 if line.startswith(("import ", "import\t")):
@@ -199,11 +173,11 @@ def addpackage(sitedir, name, known_paths):
                 if not dircase in known_paths and os.path.exists(dir):
                     sys.path.append(dir)
                     known_paths.add(dircase)
-            except Exception as exc:
+            except Exception:
                 print("Error processing line {:d} of {}:\n".format(n+1, fullname),
                       file=sys.stderr)
                 import traceback
-                for record in traceback.format_exception(exc):
+                for record in traceback.format_exception(*sys.exc_info()):
                     for line in record.splitlines():
                         print('  '+line, file=sys.stderr)
                 print("\nRemainder of file ignored", file=sys.stderr)
@@ -216,7 +190,6 @@ def addpackage(sitedir, name, known_paths):
 def addsitedir(sitedir, known_paths=None):
     """Add 'sitedir' argument to sys.path if missing and handle .pth files in
     'sitedir'"""
-    _trace(f"Adding directory: {sitedir!r}")
     if known_paths is None:
         known_paths = _init_pathinfo()
         reset = True
@@ -230,8 +203,7 @@ def addsitedir(sitedir, known_paths=None):
         names = os.listdir(sitedir)
     except OSError:
         return
-    names = [name for name in names
-             if name.endswith(".pth") and not name.startswith(".")]
+    names = [name for name in names if name.endswith(".pth")]
     for name in sorted(names):
         addpackage(sitedir, name, known_paths)
     if reset:
@@ -276,10 +248,6 @@ def _getuserbase():
     if env_base:
         return env_base
 
-    # Emscripten, VxWorks, and WASI have no home directories
-    if sys.platform in {"emscripten", "vxworks", "wasi"}:
-        return None
-
     def joinuser(*args):
         return os.path.expanduser(os.path.join(*args))
 
@@ -299,8 +267,7 @@ def _get_path(userbase):
     version = sys.version_info
 
     if os.name == 'nt':
-        ver_nodot = sys.winver.replace('.', '')
-        return f'{userbase}\\Python{ver_nodot}\\site-packages'
+        return f'{userbase}\\Python{version[0]}{version[1]}\\site-packages'
 
     if sys.platform == 'darwin' and sys._framework:
         return f'{userbase}/lib/python/site-packages'
@@ -327,14 +294,11 @@ def getusersitepackages():
     If the global variable ``USER_SITE`` is not initialized yet, this
     function will also set it.
     """
-    global USER_SITE, ENABLE_USER_SITE
+    global USER_SITE
     userbase = getuserbase() # this will also set USER_BASE
 
     if USER_SITE is None:
-        if userbase is None:
-            ENABLE_USER_SITE = False # disable user site and return None
-        else:
-            USER_SITE = _get_path(userbase)
+        USER_SITE = _get_path(userbase)
 
     return USER_SITE
 
@@ -346,7 +310,6 @@ def addusersitepackages(known_paths):
     """
     # get the per user site-package path
     # this call will also make sure USER_BASE and USER_SITE are set
-    _trace("Processing user site-packages")
     user_site = getusersitepackages()
 
     if ENABLE_USER_SITE and os.path.isdir(user_site):
@@ -371,11 +334,11 @@ def getsitepackages(prefixes=None):
             continue
         seen.add(prefix)
 
-        if os.sep == '/':
-            libdirs = [sys.platlibdir]
-            if sys.platlibdir != "lib":
-                libdirs.append("lib")
+        libdirs = [sys.platlibdir]
+        if sys.platlibdir != "lib":
+            libdirs.append("lib")
 
+        if os.sep == '/':
             for libdir in libdirs:
                 path = os.path.join(prefix, libdir,
                                     "python%d.%d" % sys.version_info[:2],
@@ -383,12 +346,14 @@ def getsitepackages(prefixes=None):
                 sitepackages.append(path)
         else:
             sitepackages.append(prefix)
-            sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
+
+            for libdir in libdirs:
+                path = os.path.join(prefix, libdir, "site-packages")
+                sitepackages.append(path)
     return sitepackages
 
 def addsitepackages(known_paths, prefixes=None):
     """Add site-packages to sys.path"""
-    _trace("Processing global site-packages")
     for sitedir in getsitepackages(prefixes):
         if os.path.isdir(sitedir):
             addsitedir(sitedir, known_paths)
@@ -414,16 +379,19 @@ def setquit():
 def setcopyright():
     """Set 'copyright' and 'credits' in builtins"""
     builtins.copyright = _sitebuiltins._Printer("copyright", sys.copyright)
-    builtins.credits = _sitebuiltins._Printer("credits", """\
+    if sys.platform[:4] == 'java':
+        builtins.credits = _sitebuiltins._Printer(
+            "credits",
+            "Jython is maintained by the Jython developers (www.jython.org).")
+    else:
+        builtins.credits = _sitebuiltins._Printer("credits", """\
     Thanks to CWI, CNRI, BeOpen.com, Zope Corporation and a cast of thousands
     for supporting Python development.  See www.python.org for more information.""")
     files, dirs = [], []
     # Not all modules are required to have a __file__ attribute.  See
     # PEP 420 for more details.
-    here = getattr(sys, '_stdlib_dir', None)
-    if not here and hasattr(os, '__file__'):
+    if hasattr(os, '__file__'):
         here = os.path.dirname(os.__file__)
-    if here:
         files.extend(["LICENSE.txt", "LICENSE"])
         dirs.extend([os.path.join(here, os.pardir), here, os.curdir])
     builtins.license = _sitebuiltins._Printer(
@@ -502,23 +470,20 @@ def venv(known_paths):
         executable = sys._base_executable = os.environ['__PYVENV_LAUNCHER__']
     else:
         executable = sys.executable
-    exe_dir = os.path.dirname(os.path.abspath(executable))
+    exe_dir, _ = os.path.split(os.path.abspath(executable))
     site_prefix = os.path.dirname(exe_dir)
     sys._home = None
     conf_basename = 'pyvenv.cfg'
-    candidate_conf = next(
-        (
-            conffile for conffile in (
-                os.path.join(exe_dir, conf_basename),
-                os.path.join(site_prefix, conf_basename)
+    candidate_confs = [
+        conffile for conffile in (
+            os.path.join(exe_dir, conf_basename),
+            os.path.join(site_prefix, conf_basename)
             )
-            if os.path.isfile(conffile)
-        ),
-        None
-    )
+        if os.path.isfile(conffile)
+        ]
 
-    if candidate_conf:
-        virtual_conf = candidate_conf
+    if candidate_confs:
+        virtual_conf = candidate_confs[0]
         system_site = "true"
         # Issue 25185: Use UTF-8, as that's what the venv module uses when
         # writing the file.
@@ -646,14 +611,11 @@ def _script():
         for dir in sys.path:
             print("    %r," % (dir,))
         print("]")
-        def exists(path):
-            if path is not None and os.path.isdir(path):
-                return "exists"
-            else:
-                return "doesn't exist"
-        print(f"USER_BASE: {user_base!r} ({exists(user_base)})")
-        print(f"USER_SITE: {user_site!r} ({exists(user_site)})")
-        print(f"ENABLE_USER_SITE: {ENABLE_USER_SITE!r}")
+        print("USER_BASE: %r (%s)" % (user_base,
+            "exists" if os.path.isdir(user_base) else "doesn't exist"))
+        print("USER_SITE: %r (%s)" % (user_site,
+            "exists" if os.path.isdir(user_site) else "doesn't exist"))
+        print("ENABLE_USER_SITE: %r" %  ENABLE_USER_SITE)
         sys.exit(0)
 
     buffer = []

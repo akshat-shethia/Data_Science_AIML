@@ -1,0 +1,202 @@
+{
+  "build": "py39haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.9,<3.10.0a0"
+  ],
+  "extracted_package_dir": "C:\\miniconda\\pkgs\\overrides-7.4.0-py39haa95532_0",
+  "files": [
+    "Lib/site-packages/overrides-7.4.0.dist-info/INSTALLER",
+    "Lib/site-packages/overrides-7.4.0.dist-info/LICENSE",
+    "Lib/site-packages/overrides-7.4.0.dist-info/METADATA",
+    "Lib/site-packages/overrides-7.4.0.dist-info/RECORD",
+    "Lib/site-packages/overrides-7.4.0.dist-info/REQUESTED",
+    "Lib/site-packages/overrides-7.4.0.dist-info/WHEEL",
+    "Lib/site-packages/overrides-7.4.0.dist-info/direct_url.json",
+    "Lib/site-packages/overrides-7.4.0.dist-info/top_level.txt",
+    "Lib/site-packages/overrides/__init__.py",
+    "Lib/site-packages/overrides/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/overrides/__pycache__/enforce.cpython-39.pyc",
+    "Lib/site-packages/overrides/__pycache__/final.cpython-39.pyc",
+    "Lib/site-packages/overrides/__pycache__/overrides.cpython-39.pyc",
+    "Lib/site-packages/overrides/__pycache__/signature.cpython-39.pyc",
+    "Lib/site-packages/overrides/__pycache__/typing_utils.cpython-39.pyc",
+    "Lib/site-packages/overrides/enforce.py",
+    "Lib/site-packages/overrides/final.py",
+    "Lib/site-packages/overrides/overrides.py",
+    "Lib/site-packages/overrides/py.typed",
+    "Lib/site-packages/overrides/signature.py",
+    "Lib/site-packages/overrides/typing_utils.py",
+    ".nonadmin"
+  ],
+  "fn": "overrides-7.4.0-py39haa95532_0.conda",
+  "license": "Apache-2.0",
+  "link": {
+    "source": "C:\\miniconda\\pkgs\\overrides-7.4.0-py39haa95532_0",
+    "type": 1
+  },
+  "md5": "ffa6cd094503b969dcde3939f9e0c9e5",
+  "name": "overrides",
+  "package_tarball_full_path": "C:\\miniconda\\pkgs\\overrides-7.4.0-py39haa95532_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+        "sha256_in_prefix": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+        "size_in_bytes": 11358
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "4d154b7b567c8e1d70b37ac99233d6faa92033df1a01295c37e8ab4f3a568a76",
+        "sha256_in_prefix": "4d154b7b567c8e1d70b37ac99233d6faa92033df1a01295c37e8ab4f3a568a76",
+        "size_in_bytes": 5921
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "f3d2fcac2b44c51757a54efd45ece877ca100621b000dc99ce5a6094ee8e1e69",
+        "sha256_in_prefix": "f3d2fcac2b44c51757a54efd45ece877ca100621b000dc99ce5a6094ee8e1e69",
+        "size_in_bytes": 1525
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "c903798389a0e00c9b4639208bef72cb889010589b1909a5cfbf0f8a4e4eafe0",
+        "sha256_in_prefix": "c903798389a0e00c9b4639208bef72cb889010589b1909a5cfbf0f8a4e4eafe0",
+        "size_in_bytes": 92
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "6cdfdc02725a2d52478fa4220ed127910ac8fece4c28a63eeee98d9eaa3bd256",
+        "sha256_in_prefix": "6cdfdc02725a2d52478fa4220ed127910ac8fece4c28a63eeee98d9eaa3bd256",
+        "size_in_bytes": 89
+      },
+      {
+        "_path": "Lib/site-packages/overrides-7.4.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "d3abf76af894decb513f3a1e9eb2762bf273dcc6b747d150604fb9e1e4ce5d89",
+        "sha256_in_prefix": "d3abf76af894decb513f3a1e9eb2762bf273dcc6b747d150604fb9e1e4ce5d89",
+        "size_in_bytes": 10
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "85278ca8c5c891feb361013c3f7f6b56655b22ae4ff8646fab23d67ac3b40b50",
+        "sha256_in_prefix": "85278ca8c5c891feb361013c3f7f6b56655b22ae4ff8646fab23d67ac3b40b50",
+        "size_in_bytes": 333
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "11c6cdf5609f20f8fae031e990b789b06d35688a7609619f21b100fd7f6fcfee",
+        "sha256_in_prefix": "11c6cdf5609f20f8fae031e990b789b06d35688a7609619f21b100fd7f6fcfee",
+        "size_in_bytes": 450
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/enforce.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "128fc8c41c05d133b170816d865e2f6d72e08465d510815d3908d5b13f5f110a",
+        "sha256_in_prefix": "128fc8c41c05d133b170816d865e2f6d72e08465d510815d3908d5b13f5f110a",
+        "size_in_bytes": 2223
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/final.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "536ddabcbafcc97de8d433bfe3bbe4c2fd7a244e4fc59640f7b0ce2a6a319e6c",
+        "sha256_in_prefix": "536ddabcbafcc97de8d433bfe3bbe4c2fd7a244e4fc59640f7b0ce2a6a319e6c",
+        "size_in_bytes": 1100
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/overrides.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "a9e1708cb2f95a95388f8e250ca25861ef4c1a27e9449151e618f7056e6f8f03",
+        "sha256_in_prefix": "a9e1708cb2f95a95388f8e250ca25861ef4c1a27e9449151e618f7056e6f8f03",
+        "size_in_bytes": 5718
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/signature.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "4d424a8964f17c0ab53de6d3ad3d1bc052318a2d5e3bf4201d0f432d69b0e7d4",
+        "sha256_in_prefix": "4d424a8964f17c0ab53de6d3ad3d1bc052318a2d5e3bf4201d0f432d69b0e7d4",
+        "size_in_bytes": 8402
+      },
+      {
+        "_path": "Lib/site-packages/overrides/__pycache__/typing_utils.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "a212124d692ac26fe82cc9fa5478749da10d61423d6af50ddf128dbe57f314e0",
+        "sha256_in_prefix": "a212124d692ac26fe82cc9fa5478749da10d61423d6af50ddf128dbe57f314e0",
+        "size_in_bytes": 11344
+      },
+      {
+        "_path": "Lib/site-packages/overrides/enforce.py",
+        "path_type": "hardlink",
+        "sha256": "8734e6a3b56729d16f40a67450b38bf6b17eb8f1069980741b0f66ae4b673b43",
+        "sha256_in_prefix": "8734e6a3b56729d16f40a67450b38bf6b17eb8f1069980741b0f66ae4b673b43",
+        "size_in_bytes": 2349
+      },
+      {
+        "_path": "Lib/site-packages/overrides/final.py",
+        "path_type": "hardlink",
+        "sha256": "ca42b57973cab51f92ba364e56771210eb4be9e51a27f9ee96d321669dceb0ed",
+        "sha256_in_prefix": "ca42b57973cab51f92ba364e56771210eb4be9e51a27f9ee96d321669dceb0ed",
+        "size_in_bytes": 1511
+      },
+      {
+        "_path": "Lib/site-packages/overrides/overrides.py",
+        "path_type": "hardlink",
+        "sha256": "1a36fe5251ef49a568c00707b63cdae2487ca908e965c142c967dc31ab416394",
+        "sha256_in_prefix": "1a36fe5251ef49a568c00707b63cdae2487ca908e965c142c967dc31ab416394",
+        "size_in_bytes": 7514
+      },
+      {
+        "_path": "Lib/site-packages/overrides/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/overrides/signature.py",
+        "path_type": "hardlink",
+        "sha256": "5a3888a1cef4f66eaa838ee60aca4243eec740719e9a2985942b1722839d3632",
+        "sha256_in_prefix": "5a3888a1cef4f66eaa838ee60aca4243eec740719e9a2985942b1722839d3632",
+        "size_in_bytes": 11649
+      },
+      {
+        "_path": "Lib/site-packages/overrides/typing_utils.py",
+        "path_type": "hardlink",
+        "sha256": "805c8fb9f0b7559c1e440d50f5e7357f664ed05775b94e57903e62a08e922cd1",
+        "sha256_in_prefix": "805c8fb9f0b7559c1e440d50f5e7357f664ed05775b94e57903e62a08e922cd1",
+        "size_in_bytes": 14294
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "43c8056b795dd28af698215daf4d684b6aecce31e5db4a6605958e7b26aef5ad",
+  "size": 30737,
+  "subdir": "win-64",
+  "timestamp": 1699371397000,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/overrides-7.4.0-py39haa95532_0.conda",
+  "version": "7.4.0"
+}

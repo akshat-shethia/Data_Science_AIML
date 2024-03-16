@@ -117,7 +117,7 @@ class _Ignore:
         return 0
 
 def _modname(path):
-    """Return a plausible module name for the path."""
+    """Return a plausible module name for the patch."""
 
     base = os.path.basename(path)
     filename, ext = os.path.splitext(base)
@@ -173,7 +173,7 @@ class CoverageResults:
             try:
                 with open(self.infile, 'rb') as f:
                     counts, calledfuncs, callers = pickle.load(f)
-                self.update(self.__class__(counts, calledfuncs, callers=callers))
+                self.update(self.__class__(counts, calledfuncs, callers))
             except (OSError, EOFError, ValueError) as err:
                 print(("Skipping counts file %r: %s"
                                       % (self.infile, err)), file=sys.stderr)
@@ -258,7 +258,8 @@ class CoverageResults:
                 modulename = _modname(filename)
             else:
                 dir = coverdir
-                os.makedirs(dir, exist_ok=True)
+                if not os.path.exists(dir):
+                    os.makedirs(dir)
                 modulename = _fullmodname(filename)
 
             # If desired, get a list of the line numbers which represent

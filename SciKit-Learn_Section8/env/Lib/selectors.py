@@ -50,11 +50,12 @@ SelectorKey.__doc__ = """SelectorKey(fileobj, fd, events, data)
     Object used to associate a file object to its backing
     file descriptor, selected event mask, and attached data.
 """
-SelectorKey.fileobj.__doc__ = 'File object registered.'
-SelectorKey.fd.__doc__ = 'Underlying file descriptor.'
-SelectorKey.events.__doc__ = 'Events that must be waited for on this file object.'
-SelectorKey.data.__doc__ = ('''Optional opaque data associated to this file object.
-For example, this could be used to store a per-client session ID.''')
+if sys.version_info >= (3, 5):
+    SelectorKey.fileobj.__doc__ = 'File object registered.'
+    SelectorKey.fd.__doc__ = 'Underlying file descriptor.'
+    SelectorKey.events.__doc__ = 'Events that must be waited for on this file object.'
+    SelectorKey.data.__doc__ = ('''Optional opaque data associated to this file object.
+    For example, this could be used to store a per-client session ID.''')
 
 
 class _SelectorMapping(Mapping):
@@ -509,7 +510,6 @@ if hasattr(select, 'kqueue'):
         def __init__(self):
             super().__init__()
             self._selector = select.kqueue()
-            self._max_events = 0
 
         def fileno(self):
             return self._selector.fileno()
@@ -521,12 +521,10 @@ if hasattr(select, 'kqueue'):
                     kev = select.kevent(key.fd, select.KQ_FILTER_READ,
                                         select.KQ_EV_ADD)
                     self._selector.control([kev], 0, 0)
-                    self._max_events += 1
                 if events & EVENT_WRITE:
                     kev = select.kevent(key.fd, select.KQ_FILTER_WRITE,
                                         select.KQ_EV_ADD)
                     self._selector.control([kev], 0, 0)
-                    self._max_events += 1
             except:
                 super().unregister(fileobj)
                 raise
@@ -537,7 +535,6 @@ if hasattr(select, 'kqueue'):
             if key.events & EVENT_READ:
                 kev = select.kevent(key.fd, select.KQ_FILTER_READ,
                                     select.KQ_EV_DELETE)
-                self._max_events -= 1
                 try:
                     self._selector.control([kev], 0, 0)
                 except OSError:
@@ -547,7 +544,6 @@ if hasattr(select, 'kqueue'):
             if key.events & EVENT_WRITE:
                 kev = select.kevent(key.fd, select.KQ_FILTER_WRITE,
                                     select.KQ_EV_DELETE)
-                self._max_events -= 1
                 try:
                     self._selector.control([kev], 0, 0)
                 except OSError:
@@ -560,7 +556,7 @@ if hasattr(select, 'kqueue'):
             # If max_ev is 0, kqueue will ignore the timeout. For consistent
             # behavior with the other selector classes, we prevent that here
             # (using max). See https://bugs.python.org/issue29255
-            max_ev = self._max_events or 1
+            max_ev = max(len(self._fd_to_key), 1)
             ready = []
             try:
                 kev_list = self._selector.control(None, max_ev, timeout)

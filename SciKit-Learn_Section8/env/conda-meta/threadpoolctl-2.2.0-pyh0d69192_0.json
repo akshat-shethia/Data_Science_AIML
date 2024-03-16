@@ -17,7 +17,7 @@
     "Lib/site-packages/threadpoolctl-2.2.0.dist-info/direct_url.json",
     "Lib/site-packages/threadpoolctl.py",
     ".nonadmin",
-    "Lib/site-packages/__pycache__/threadpoolctl.cpython-312.pyc"
+    "Lib/site-packages/__pycache__/threadpoolctl.cpython-39.pyc"
   ],
   "fn": "threadpoolctl-2.2.0-pyh0d69192_0.conda",
   "license": "BSD 3-Clause",
@@ -89,7 +89,7 @@
         "size_in_bytes": 31635
       },
       {
-        "_path": "Lib/site-packages/__pycache__/threadpoolctl.cpython-312.pyc",
+        "_path": "Lib/site-packages/__pycache__/threadpoolctl.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

@@ -1,0 +1,162 @@
+{
+  "build": "py39haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.9,<3.10.0a0"
+  ],
+  "extracted_package_dir": "C:\\miniconda\\pkgs\\ply-3.11-py39haa95532_0",
+  "files": [
+    "Lib/site-packages/ply-3.11-py3.9.egg-info/PKG-INFO",
+    "Lib/site-packages/ply-3.11-py3.9.egg-info/SOURCES.txt",
+    "Lib/site-packages/ply-3.11-py3.9.egg-info/dependency_links.txt",
+    "Lib/site-packages/ply-3.11-py3.9.egg-info/top_level.txt",
+    "Lib/site-packages/ply/__init__.py",
+    "Lib/site-packages/ply/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/ply/__pycache__/cpp.cpython-39.pyc",
+    "Lib/site-packages/ply/__pycache__/ctokens.cpython-39.pyc",
+    "Lib/site-packages/ply/__pycache__/lex.cpython-39.pyc",
+    "Lib/site-packages/ply/__pycache__/yacc.cpython-39.pyc",
+    "Lib/site-packages/ply/__pycache__/ygen.cpython-39.pyc",
+    "Lib/site-packages/ply/cpp.py",
+    "Lib/site-packages/ply/ctokens.py",
+    "Lib/site-packages/ply/lex.py",
+    "Lib/site-packages/ply/yacc.py",
+    "Lib/site-packages/ply/ygen.py",
+    ".nonadmin"
+  ],
+  "fn": "ply-3.11-py39haa95532_0.conda",
+  "license": "BSD 3-clause",
+  "link": {
+    "source": "C:\\miniconda\\pkgs\\ply-3.11-py39haa95532_0",
+    "type": 1
+  },
+  "md5": "4c9c6253fe0c8908073b021b0a7b4068",
+  "name": "ply",
+  "package_tarball_full_path": "C:\\miniconda\\pkgs\\ply-3.11-py39haa95532_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Lib/site-packages/ply-3.11-py3.9.egg-info/PKG-INFO",
+        "path_type": "hardlink",
+        "sha256": "85bb7942098bebe80375b255d0de766c7b1f93e905f053acc639770ed436b62a",
+        "sha256_in_prefix": "85bb7942098bebe80375b255d0de766c7b1f93e905f053acc639770ed436b62a",
+        "size_in_bytes": 985
+      },
+      {
+        "_path": "Lib/site-packages/ply-3.11-py3.9.egg-info/SOURCES.txt",
+        "path_type": "hardlink",
+        "sha256": "d1b999aa2a245b60c29ad8b3f1f43eec1571fc927bb8e42c02e42ee0ab835983",
+        "sha256_in_prefix": "d1b999aa2a245b60c29ad8b3f1f43eec1571fc927bb8e42c02e42ee0ab835983",
+        "size_in_bytes": 3858
+      },
+      {
+        "_path": "Lib/site-packages/ply-3.11-py3.9.egg-info/dependency_links.txt",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "Lib/site-packages/ply-3.11-py3.9.egg-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "8036011d143b572d2d6340235f226d69dbd4d8b0da3ac1ea86157bd001ac8ac7",
+        "sha256_in_prefix": "8036011d143b572d2d6340235f226d69dbd4d8b0da3ac1ea86157bd001ac8ac7",
+        "size_in_bytes": 4
+      },
+      {
+        "_path": "Lib/site-packages/ply/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "b31ea204817ffd6288794d22c36592a12a8185c947179121053734c038a04d5f",
+        "sha256_in_prefix": "b31ea204817ffd6288794d22c36592a12a8185c947179121053734c038a04d5f",
+        "size_in_bytes": 103
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "e32197199fc835c70b668022cfe39188b3e807dea8b44960067856ba10ec375f",
+        "sha256_in_prefix": "e32197199fc835c70b668022cfe39188b3e807dea8b44960067856ba10ec375f",
+        "size_in_bytes": 174
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/cpp.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "338e962ec336298f5db437eef8696a83ed7a24727ab68a5f13d8e7ccb6b135fc",
+        "sha256_in_prefix": "338e962ec336298f5db437eef8696a83ed7a24727ab68a5f13d8e7ccb6b135fc",
+        "size_in_bytes": 16075
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/ctokens.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "2486c3493d3d95d5b65378615ce762ca5b9338c7ec310e4558aaeca6e7b9e185",
+        "sha256_in_prefix": "2486c3493d3d95d5b65378615ce762ca5b9338c7ec310e4558aaeca6e7b9e185",
+        "size_in_bytes": 2026
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/lex.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "32b64c4a94966e0a872ef548852ceb2dc7381cdca8c97cf7a4db67178a7e8152",
+        "sha256_in_prefix": "32b64c4a94966e0a872ef548852ceb2dc7381cdca8c97cf7a4db67178a7e8152",
+        "size_in_bytes": 21357
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/yacc.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "bbd8848020b821539c4ec527db80a4710803edde30055c7ba226791e0195426a",
+        "sha256_in_prefix": "bbd8848020b821539c4ec527db80a4710803edde30055c7ba226791e0195426a",
+        "size_in_bytes": 53192
+      },
+      {
+        "_path": "Lib/site-packages/ply/__pycache__/ygen.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "b842a5caa4f1bb9341a9e01c6b41abea1fb73a2ef11bb93c7c40df0b2ff3e758",
+        "sha256_in_prefix": "b842a5caa4f1bb9341a9e01c6b41abea1fb73a2ef11bb93c7c40df0b2ff3e758",
+        "size_in_bytes": 1736
+      },
+      {
+        "_path": "Lib/site-packages/ply/cpp.py",
+        "path_type": "hardlink",
+        "sha256": "293835dd1e5229e89cc199bb6c83cbe3829c40145c1ec99e1063b020156f2e4a",
+        "sha256_in_prefix": "293835dd1e5229e89cc199bb6c83cbe3829c40145c1ec99e1063b020156f2e4a",
+        "size_in_bytes": 33639
+      },
+      {
+        "_path": "Lib/site-packages/ply/ctokens.py",
+        "path_type": "hardlink",
+        "sha256": "1a6c9660363d9e5e85d56250f6b99c405821d459c00c5967a7f4c18d3704b2a5",
+        "sha256_in_prefix": "1a6c9660363d9e5e85d56250f6b99c405821d459c00c5967a7f4c18d3704b2a5",
+        "size_in_bytes": 3155
+      },
+      {
+        "_path": "Lib/site-packages/ply/lex.py",
+        "path_type": "hardlink",
+        "sha256": "6da6d12129c801fcc7a3b5aa2d8176a86092687d1bb4cf1ddf3b601da2b7480d",
+        "sha256_in_prefix": "6da6d12129c801fcc7a3b5aa2d8176a86092687d1bb4cf1ddf3b601da2b7480d",
+        "size_in_bytes": 42905
+      },
+      {
+        "_path": "Lib/site-packages/ply/yacc.py",
+        "path_type": "hardlink",
+        "sha256": "105d38deb207ad72581ba8dc6f5e5323648bc1d0a834e4195c237fd4cdfe2389",
+        "sha256_in_prefix": "105d38deb207ad72581ba8dc6f5e5323648bc1d0a834e4195c237fd4cdfe2389",
+        "size_in_bytes": 137736
+      },
+      {
+        "_path": "Lib/site-packages/ply/ygen.py",
+        "path_type": "hardlink",
+        "sha256": "4d19e4660c79041078dd0b29bb6278815b69781badf31ad3119a0b6cd3746fa3",
+        "sha256_in_prefix": "4d19e4660c79041078dd0b29bb6278815b69781badf31ad3119a0b6cd3746fa3",
+        "size_in_bytes": 2246
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "df116892c22c41805b5672a3ab836c62feeef80653007c8c2c403956cd732b42",
+  "size": 83378,
+  "subdir": "win-64",
+  "timestamp": 1607021261000,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/ply-3.11-py39haa95532_0.conda",
+  "version": "3.11"
+}

@@ -1,0 +1,330 @@
+{
+  "build": "py39haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "ipykernel >=6.14",
+    "ipython",
+    "jupyter_client >=7.0.0",
+    "jupyter_core >=4.12,!=5.0.*",
+    "prompt_toolkit >=3.0.30",
+    "pygments",
+    "python >=3.9,<3.10.0a0",
+    "pyzmq >=17",
+    "traitlets >=5.4"
+  ],
+  "extracted_package_dir": "C:\\miniconda\\pkgs\\jupyter_console-6.6.3-py39haa95532_0",
+  "files": [
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/INSTALLER",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/METADATA",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/RECORD",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/REQUESTED",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/WHEEL",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/direct_url.json",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/entry_points.txt",
+    "Lib/site-packages/jupyter_console-6.6.3.dist-info/licenses/LICENSE",
+    "Lib/site-packages/jupyter_console/__init__.py",
+    "Lib/site-packages/jupyter_console/__main__.py",
+    "Lib/site-packages/jupyter_console/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/__main__.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/_version.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/app.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/completer.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/ptshell.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/utils.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/__pycache__/zmqhistory.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/_version.py",
+    "Lib/site-packages/jupyter_console/app.py",
+    "Lib/site-packages/jupyter_console/completer.py",
+    "Lib/site-packages/jupyter_console/ptshell.py",
+    "Lib/site-packages/jupyter_console/tests/__init__.py",
+    "Lib/site-packages/jupyter_console/tests/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/tests/__pycache__/conftest.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/tests/__pycache__/test_console.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/tests/__pycache__/test_image_handler.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/tests/__pycache__/writetofile.cpython-39.pyc",
+    "Lib/site-packages/jupyter_console/tests/conftest.py",
+    "Lib/site-packages/jupyter_console/tests/test_console.py",
+    "Lib/site-packages/jupyter_console/tests/test_image_handler.py",
+    "Lib/site-packages/jupyter_console/tests/writetofile.py",
+    "Lib/site-packages/jupyter_console/utils.py",
+    "Lib/site-packages/jupyter_console/zmqhistory.py",
+    "Scripts/jupyter-console-script.py",
+    "Scripts/jupyter-console.exe",
+    ".nonadmin"
+  ],
+  "fn": "jupyter_console-6.6.3-py39haa95532_0.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\miniconda\\pkgs\\jupyter_console-6.6.3-py39haa95532_0",
+    "type": 1
+  },
+  "md5": "a623fc69820ff51bac0db02f2bb724cb",
+  "name": "jupyter_console",
+  "package_tarball_full_path": "C:\\miniconda\\pkgs\\jupyter_console-6.6.3-py39haa95532_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "e0e73e68ec5ea074448ffea4409d620884635d1a4362e74d15a43cab3c8f0ed2",
+        "sha256_in_prefix": "e0e73e68ec5ea074448ffea4409d620884635d1a4362e74d15a43cab3c8f0ed2",
+        "size_in_bytes": 5811
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "541e1d88d0860a1af0fb35eebdb00b52505fc39b11aae28bf87f9712ef4bfebe",
+        "sha256_in_prefix": "541e1d88d0860a1af0fb35eebdb00b52505fc39b11aae28bf87f9712ef4bfebe",
+        "size_in_bytes": 2723
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "dc34a64b2604d520c444edbeac8dea51b315a2f06cefefa081cee6b9b39e9ac7",
+        "sha256_in_prefix": "dc34a64b2604d520c444edbeac8dea51b315a2f06cefefa081cee6b9b39e9ac7",
+        "size_in_bytes": 86
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "01743cf17c068c888b7d06617b6610b2af92846c879f08402fd0c63620bcd112",
+        "sha256_in_prefix": "01743cf17c068c888b7d06617b6610b2af92846c879f08402fd0c63620bcd112",
+        "size_in_bytes": 95
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "8601188c99b93c184ee30ade7feef84e28e861196aa91aa8786ec86936985516",
+        "sha256_in_prefix": "8601188c99b93c184ee30ade7feef84e28e861196aa91aa8786ec86936985516",
+        "size_in_bytes": 61
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console-6.6.3.dist-info/licenses/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "5ca74e4d2eeb9330b0d129c25f874d3544a13413bc62ae8d367819100d095072",
+        "sha256_in_prefix": "5ca74e4d2eeb9330b0d129c25f874d3544a13413bc62ae8d367819100d095072",
+        "size_in_bytes": 1588
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "78e142ffe395cf30dd545243657ddf4c6e2c38cd7df3f46f49e4351f2a1f8f24",
+        "sha256_in_prefix": "78e142ffe395cf30dd545243657ddf4c6e2c38cd7df3f46f49e4351f2a1f8f24",
+        "size_in_bytes": 88
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__main__.py",
+        "path_type": "hardlink",
+        "sha256": "f6c8d514ff6768655ce57590e9e87fe8fa5f8746d83104c5cd01d30bfd0cc67b",
+        "sha256_in_prefix": "f6c8d514ff6768655ce57590e9e87fe8fa5f8746d83104c5cd01d30bfd0cc67b",
+        "size_in_bytes": 90
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "9abc1d1335a182512b347fb82dfcdb32c33800366741b52b9bb242764baf60e0",
+        "sha256_in_prefix": "9abc1d1335a182512b347fb82dfcdb32c33800366741b52b9bb242764baf60e0",
+        "size_in_bytes": 244
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/__main__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "0b2a3ee1941ad1ff17c0645c571151a94c7084182e4a0d65175f889f02573d89",
+        "sha256_in_prefix": "0b2a3ee1941ad1ff17c0645c571151a94c7084182e4a0d65175f889f02573d89",
+        "size_in_bytes": 240
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/_version.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "bc31077f6efdbed20c3ccf65df16d41aa82b4158cf8c8d890ba96c959efd439b",
+        "sha256_in_prefix": "bc31077f6efdbed20c3ccf65df16d41aa82b4158cf8c8d890ba96c959efd439b",
+        "size_in_bytes": 630
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/app.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "d1d6fcd95605370dba91291ad008b2da8d109f52dc7ff262dd72eb08aa4da65e",
+        "sha256_in_prefix": "d1d6fcd95605370dba91291ad008b2da8d109f52dc7ff262dd72eb08aa4da65e",
+        "size_in_bytes": 4232
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/completer.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "d894da29eebaee7bcce7f8e56d5eb5601328a37575d59352002c221b114aabba",
+        "sha256_in_prefix": "d894da29eebaee7bcce7f8e56d5eb5601328a37575d59352002c221b114aabba",
+        "size_in_bytes": 1525
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/ptshell.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "fc9c3afdc99b0b94c45d70dd1aa5c8a1011f7735eccbdc2cd14f9441537da08b",
+        "sha256_in_prefix": "fc9c3afdc99b0b94c45d70dd1aa5c8a1011f7735eccbdc2cd14f9441537da08b",
+        "size_in_bytes": 30884
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/utils.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "4b7275bc7c0fa745d86bd8fa53fc16af19785918bd605984aacb40de1a72ae9d",
+        "sha256_in_prefix": "4b7275bc7c0fa745d86bd8fa53fc16af19785918bd605984aacb40de1a72ae9d",
+        "size_in_bytes": 829
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/__pycache__/zmqhistory.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "1e21a8649e7d60cb335efa52ada531b8518ab6295875602785e6b1e219a97ec4",
+        "sha256_in_prefix": "1e21a8649e7d60cb335efa52ada531b8518ab6295875602785e6b1e219a97ec4",
+        "size_in_bytes": 2981
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/_version.py",
+        "path_type": "hardlink",
+        "sha256": "4f2850c8c337229f564ad141076110e16cc54f7ad7d14adafd8f21c4a1838cbd",
+        "sha256_in_prefix": "4f2850c8c337229f564ad141076110e16cc54f7ad7d14adafd8f21c4a1838cbd",
+        "size_in_bytes": 443
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/app.py",
+        "path_type": "hardlink",
+        "sha256": "b84dca3fa54afb82a71007de7e659b414fcbb5413bd945c3e17f8aaf9977f150",
+        "sha256_in_prefix": "b84dca3fa54afb82a71007de7e659b414fcbb5413bd945c3e17f8aaf9977f150",
+        "size_in_bytes": 5054
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/completer.py",
+        "path_type": "hardlink",
+        "sha256": "3d8d4b27c4bdec5f257006c830f0d62b9f67ef1c5dfc37465136c727652b1506",
+        "sha256_in_prefix": "3d8d4b27c4bdec5f257006c830f0d62b9f67ef1c5dfc37465136c727652b1506",
+        "size_in_bytes": 1399
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/ptshell.py",
+        "path_type": "hardlink",
+        "sha256": "7cbef6410e4f8f6f6a25636b5219970eef95c02e8cb22559e87e9a6553e51892",
+        "sha256_in_prefix": "7cbef6410e4f8f6f6a25636b5219970eef95c02e8cb22559e87e9a6553e51892",
+        "size_in_bytes": 38655
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "06bea0df0c53cb044b95af5ba79cf63339a6c31683313d4c167de0748773f8be",
+        "sha256_in_prefix": "06bea0df0c53cb044b95af5ba79cf63339a6c31683313d4c167de0748773f8be",
+        "size_in_bytes": 142
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__pycache__/conftest.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "74fb256cbc24dc0ae0cf51a9473d259386a638830e544f2dd7a17c4ed7576066",
+        "sha256_in_prefix": "74fb256cbc24dc0ae0cf51a9473d259386a638830e544f2dd7a17c4ed7576066",
+        "size_in_bytes": 351
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__pycache__/test_console.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "21c18ded0c85e924e835ff2146fa22b0701d38460a2fabc62cc5d1f8d5605475",
+        "sha256_in_prefix": "21c18ded0c85e924e835ff2146fa22b0701d38460a2fabc62cc5d1f8d5605475",
+        "size_in_bytes": 2859
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__pycache__/test_image_handler.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "ade6e017c7ccb32ea66cc662b13b261dfb2316f30b632ae1837e8d25ad7abd45",
+        "sha256_in_prefix": "ade6e017c7ccb32ea66cc662b13b261dfb2316f30b632ae1837e8d25ad7abd45",
+        "size_in_bytes": 4539
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/__pycache__/writetofile.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "548fd35096f008797316950fe10a30f6394a1fb01ab3c16c274aa8295a36d77d",
+        "sha256_in_prefix": "548fd35096f008797316950fe10a30f6394a1fb01ab3c16c274aa8295a36d77d",
+        "size_in_bytes": 569
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/conftest.py",
+        "path_type": "hardlink",
+        "sha256": "5d92086ca822ed978a99a1443ffcd2803363fabb2190c20afab99ced213adc31",
+        "sha256_in_prefix": "5d92086ca822ed978a99a1443ffcd2803363fabb2190c20afab99ced213adc31",
+        "size_in_bytes": 126
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/test_console.py",
+        "path_type": "hardlink",
+        "sha256": "1ad1b66a36be3b4101f84b9173dd0c6e57ae5dc40609876909b5b0d66410ec09",
+        "sha256_in_prefix": "1ad1b66a36be3b4101f84b9173dd0c6e57ae5dc40609876909b5b0d66410ec09",
+        "size_in_bytes": 2692
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/test_image_handler.py",
+        "path_type": "hardlink",
+        "sha256": "65a0829c1fb1a22359e34e2dd0ef37f4346ed29a1ec1303b79e1da0e6b51b9b2",
+        "sha256_in_prefix": "65a0829c1fb1a22359e34e2dd0ef37f4346ed29a1ec1303b79e1da0e6b51b9b2",
+        "size_in_bytes": 3310
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/tests/writetofile.py",
+        "path_type": "hardlink",
+        "sha256": "a92362893f0f020356decaa2f9128bf0042cf096d5dbdc11b0c7f200f08f3ed0",
+        "sha256_in_prefix": "a92362893f0f020356decaa2f9128bf0042cf096d5dbdc11b0c7f200f08f3ed0",
+        "size_in_bytes": 783
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/utils.py",
+        "path_type": "hardlink",
+        "sha256": "1f5b1c997f1aeca00213dfe5a1aa2ab79b7d61549155908bc9a4ee07ba0a1f9c",
+        "sha256_in_prefix": "1f5b1c997f1aeca00213dfe5a1aa2ab79b7d61549155908bc9a4ee07ba0a1f9c",
+        "size_in_bytes": 616
+      },
+      {
+        "_path": "Lib/site-packages/jupyter_console/zmqhistory.py",
+        "path_type": "hardlink",
+        "sha256": "6022bbe9901ee739999dadc91fd316c6f61463cbf86054ef930cca6640d3b13c",
+        "sha256_in_prefix": "6022bbe9901ee739999dadc91fd316c6f61463cbf86054ef930cca6640d3b13c",
+        "size_in_bytes": 3461
+      },
+      {
+        "_path": "Scripts/jupyter-console-script.py",
+        "path_type": "hardlink",
+        "sha256": "c300ab809a9a477cde4dbdaf1c017aff38eeaefe8bd21b6825f63aea9774e24d",
+        "sha256_in_prefix": "c300ab809a9a477cde4dbdaf1c017aff38eeaefe8bd21b6825f63aea9774e24d",
+        "size_in_bytes": 213
+      },
+      {
+        "_path": "Scripts/jupyter-console.exe",
+        "path_type": "hardlink",
+        "sha256": "5ea569f2b5bc9c273351641a1a3c52821ce2a9370bc8202f0247c793ebd8a618",
+        "sha256_in_prefix": "5ea569f2b5bc9c273351641a1a3c52821ce2a9370bc8202f0247c793ebd8a618",
+        "size_in_bytes": 41984
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "c9a1728d13a53e47f976e96d08e3619e9d8722feee8142f09bf19c58e3118118",
+  "size": 64805,
+  "subdir": "win-64",
+  "timestamp": 1680000262000,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/jupyter_console-6.6.3-py39haa95532_0.conda",
+  "version": "6.6.3"
+}

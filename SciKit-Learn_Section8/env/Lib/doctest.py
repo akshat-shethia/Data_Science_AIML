@@ -102,7 +102,7 @@ import re
 import sys
 import traceback
 import unittest
-from io import StringIO, IncrementalNewlineDecoder
+from io import StringIO
 from collections import namedtuple
 
 TestResults = namedtuple('TestResults', 'failed attempted')
@@ -207,35 +207,28 @@ def _normalize_module(module, depth=2):
     elif isinstance(module, str):
         return __import__(module, globals(), locals(), ["*"])
     elif module is None:
-        try:
-            try:
-                return sys.modules[sys._getframemodulename(depth)]
-            except AttributeError:
-                return sys.modules[sys._getframe(depth).f_globals['__name__']]
-        except KeyError:
-            pass
+        return sys.modules[sys._getframe(depth).f_globals['__name__']]
     else:
         raise TypeError("Expected a module, string, or None")
 
 def _newline_convert(data):
-    # The IO module provides a handy decoder for universal newline conversion
-    return IncrementalNewlineDecoder(None, True).decode(data, True)
+    # We have two cases to cover and we need to make sure we do
+    # them in the right order
+    for newline in ('\r\n', '\r'):
+        data = data.replace(newline, '\n')
+    return data
 
 def _load_testfile(filename, package, module_relative, encoding):
     if module_relative:
         package = _normalize_module(package, 3)
         filename = _module_relative_path(package, filename)
-        if (loader := getattr(package, '__loader__', None)) is None:
-            try:
-                loader = package.__spec__.loader
-            except AttributeError:
-                pass
-        if hasattr(loader, 'get_data'):
-            file_contents = loader.get_data(filename)
-            file_contents = file_contents.decode(encoding)
-            # get_data() opens files as 'rb', so one must do the equivalent
-            # conversion as universal newlines would do.
-            return _newline_convert(file_contents), filename
+        if getattr(package, '__loader__', None) is not None:
+            if hasattr(package.__loader__, 'get_data'):
+                file_contents = package.__loader__.get_data(filename)
+                file_contents = file_contents.decode(encoding)
+                # get_data() opens files as 'rb', so one must do the equivalent
+                # conversion as universal newlines would do.
+                return _newline_convert(file_contents), filename
     with open(filename, encoding=encoding) as f:
         return f.read(), filename
 
@@ -575,11 +568,9 @@ class DocTest:
     def __lt__(self, other):
         if not isinstance(other, DocTest):
             return NotImplemented
-        self_lno = self.lineno if self.lineno is not None else -1
-        other_lno = other.lineno if other.lineno is not None else -1
-        return ((self.name, self.filename, self_lno, id(self))
+        return ((self.name, self.filename, self.lineno, id(self))
                 <
-                (other.name, other.filename, other_lno, id(other)))
+                (other.name, other.filename, other.lineno, id(other)))
 
 ######################################################################
 ## 3. DocTestParser
@@ -964,8 +955,7 @@ class DocTestFinder:
             return module is inspect.getmodule(object)
         elif inspect.isfunction(object):
             return module.__dict__ is object.__globals__
-        elif (inspect.ismethoddescriptor(object) or
-              inspect.ismethodwrapper(object)):
+        elif inspect.ismethoddescriptor(object):
             if hasattr(object, '__objclass__'):
                 obj_mod = object.__objclass__.__module__
             elif hasattr(object, '__module__'):
@@ -981,17 +971,6 @@ class DocTestFinder:
             return True # [XX] no way not be sure.
         else:
             raise ValueError("object must be a class or function")
-
-    def _is_routine(self, obj):
-        """
-        Safely unwrap objects and determine if they are functions.
-        """
-        maybe_routine = obj
-        try:
-            maybe_routine = inspect.unwrap(maybe_routine)
-        except ValueError:
-            pass
-        return inspect.isroutine(maybe_routine)
 
     def _find(self, tests, obj, name, module, source_lines, globs, seen):
         """
@@ -1015,9 +994,9 @@ class DocTestFinder:
         if inspect.ismodule(obj) and self._recurse:
             for valname, val in obj.__dict__.items():
                 valname = '%s.%s' % (name, valname)
-
                 # Recurse to functions & classes.
-                if ((self._is_routine(val) or inspect.isclass(val)) and
+                if ((inspect.isroutine(inspect.unwrap(val))
+                     or inspect.isclass(val)) and
                     self._from_module(module, val)):
                     self._find(tests, val, valname, module, source_lines,
                                globs, seen)
@@ -1094,25 +1073,23 @@ class DocTestFinder:
 
     def _find_lineno(self, obj, source_lines):
         """
-        Return a line number of the given object's docstring.
-
-        Returns `None` if the given object does not have a docstring.
+        Return a line number of the given object's docstring.  Note:
+        this method assumes that the object has a docstring.
         """
         lineno = None
-        docstring = getattr(obj, '__doc__', None)
 
         # Find the line number for modules.
-        if inspect.ismodule(obj) and docstring is not None:
+        if inspect.ismodule(obj):
             lineno = 0
 
         # Find the line number for classes.
         # Note: this could be fooled if a class is defined multiple
         # times in a single file.
-        if inspect.isclass(obj) and docstring is not None:
+        if inspect.isclass(obj):
             if source_lines is None:
                 return None
             pat = re.compile(r'^\s*class\s*%s\b' %
-                             re.escape(getattr(obj, '__name__', '-')))
+                             getattr(obj, '__name__', '-'))
             for i, line in enumerate(source_lines):
                 if pat.match(line):
                     lineno = i
@@ -1120,15 +1097,11 @@ class DocTestFinder:
 
         # Find the line number for functions & methods.
         if inspect.ismethod(obj): obj = obj.__func__
-        if isinstance(obj, property):
-            obj = obj.fget
-        if inspect.isfunction(obj) and getattr(obj, '__doc__', None):
-            # We don't use `docstring` var here, because `obj` can be changed.
-            obj = obj.__code__
+        if inspect.isfunction(obj): obj = obj.__code__
         if inspect.istraceback(obj): obj = obj.tb_frame
         if inspect.isframe(obj): obj = obj.f_code
         if inspect.iscode(obj):
-            lineno = obj.co_firstlineno - 1
+            lineno = getattr(obj, 'co_firstlineno', None)-1
 
         # Find the line number where the docstring starts.  Assume
         # that it's the first line that begins with a quote mark.
@@ -1380,24 +1353,7 @@ class DocTestRunner:
 
             # The example raised an exception:  check if it was expected.
             else:
-                formatted_ex = traceback.format_exception_only(*exception[:2])
-                if issubclass(exception[0], SyntaxError):
-                    # SyntaxError / IndentationError is special:
-                    # we don't care about the carets / suggestions / etc
-                    # We only care about the error message and notes.
-                    # They start with `SyntaxError:` (or any other class name)
-                    exception_line_prefixes = (
-                        f"{exception[0].__qualname__}:",
-                        f"{exception[0].__module__}.{exception[0].__qualname__}:",
-                    )
-                    exc_msg_index = next(
-                        index
-                        for index, line in enumerate(formatted_ex)
-                        if line.startswith(exception_line_prefixes)
-                    )
-                    formatted_ex = formatted_ex[exc_msg_index:]
-
-                exc_msg = "".join(formatted_ex)
+                exc_msg = traceback.format_exception_only(*exception[:2])[-1]
                 if not quiet:
                     got += _exception_traceback(exception)
 

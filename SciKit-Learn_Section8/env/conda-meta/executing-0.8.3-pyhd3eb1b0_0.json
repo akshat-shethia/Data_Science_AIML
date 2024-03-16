@@ -20,9 +20,9 @@
     "Lib/site-packages/executing/executing.py",
     "Lib/site-packages/executing/version.py",
     ".nonadmin",
-    "Lib/site-packages/executing/__pycache__/__init__.cpython-312.pyc",
-    "Lib/site-packages/executing/__pycache__/executing.cpython-312.pyc",
-    "Lib/site-packages/executing/__pycache__/version.cpython-312.pyc"
+    "Lib/site-packages/executing/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/executing/__pycache__/executing.cpython-39.pyc",
+    "Lib/site-packages/executing/__pycache__/version.cpython-39.pyc"
   ],
   "fn": "executing-0.8.3-pyhd3eb1b0_0.conda",
   "license": "MIT",
@@ -115,15 +115,15 @@
         "size_in_bytes": 21
       },
       {
-        "_path": "Lib/site-packages/executing/__pycache__/__init__.cpython-312.pyc",
+        "_path": "Lib/site-packages/executing/__pycache__/__init__.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/executing/__pycache__/executing.cpython-312.pyc",
+        "_path": "Lib/site-packages/executing/__pycache__/executing.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/executing/__pycache__/version.cpython-312.pyc",
+        "_path": "Lib/site-packages/executing/__pycache__/version.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

@@ -21,9 +21,9 @@
     "Lib/site-packages/jupyterlab_pygments/_version.py",
     "Lib/site-packages/jupyterlab_pygments/style.py",
     ".nonadmin",
-    "Lib/site-packages/jupyterlab_pygments/__pycache__/__init__.cpython-312.pyc",
-    "Lib/site-packages/jupyterlab_pygments/__pycache__/_version.cpython-312.pyc",
-    "Lib/site-packages/jupyterlab_pygments/__pycache__/style.cpython-312.pyc"
+    "Lib/site-packages/jupyterlab_pygments/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/jupyterlab_pygments/__pycache__/_version.cpython-39.pyc",
+    "Lib/site-packages/jupyterlab_pygments/__pycache__/style.cpython-39.pyc"
   ],
   "fn": "jupyterlab_pygments-0.1.2-py_0.conda",
   "license": "BSD-3-Clause",
@@ -116,15 +116,15 @@
         "size_in_bytes": 8493
       },
       {
-        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/__init__.cpython-312.pyc",
+        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/__init__.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/_version.cpython-312.pyc",
+        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/_version.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/style.cpython-312.pyc",
+        "_path": "Lib/site-packages/jupyterlab_pygments/__pycache__/style.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

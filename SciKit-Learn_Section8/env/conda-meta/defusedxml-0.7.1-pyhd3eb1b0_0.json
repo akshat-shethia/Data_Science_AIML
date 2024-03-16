@@ -28,17 +28,17 @@
     "Lib/site-packages/defusedxml/sax.py",
     "Lib/site-packages/defusedxml/xmlrpc.py",
     ".nonadmin",
-    "Lib/site-packages/defusedxml/__pycache__/ElementTree.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/__init__.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/cElementTree.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/common.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/expatbuilder.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/expatreader.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/lxml.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/minidom.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/pulldom.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/sax.cpython-312.pyc",
-    "Lib/site-packages/defusedxml/__pycache__/xmlrpc.cpython-312.pyc"
+    "Lib/site-packages/defusedxml/__pycache__/ElementTree.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/cElementTree.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/common.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/expatbuilder.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/expatreader.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/lxml.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/minidom.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/pulldom.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/sax.cpython-39.pyc",
+    "Lib/site-packages/defusedxml/__pycache__/xmlrpc.cpython-39.pyc"
   ],
   "fn": "defusedxml-0.7.1-pyhd3eb1b0_0.conda",
   "license": "PSF 2.0",
@@ -187,47 +187,47 @@
         "size_in_bytes": 5364
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/ElementTree.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/ElementTree.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/__init__.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/__init__.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/cElementTree.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/cElementTree.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/common.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/common.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/expatbuilder.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/expatbuilder.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/expatreader.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/expatreader.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/lxml.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/lxml.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/minidom.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/minidom.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/pulldom.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/pulldom.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/sax.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/sax.cpython-39.pyc",
         "path_type": "pyc_file"
       },
       {
-        "_path": "Lib/site-packages/defusedxml/__pycache__/xmlrpc.cpython-312.pyc",
+        "_path": "Lib/site-packages/defusedxml/__pycache__/xmlrpc.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

@@ -18,7 +18,7 @@
     "Lib/site-packages/six-1.16.0.dist-info/top_level.txt",
     "Lib/site-packages/six.py",
     ".nonadmin",
-    "Lib/site-packages/__pycache__/six.cpython-312.pyc"
+    "Lib/site-packages/__pycache__/six.cpython-39.pyc"
   ],
   "fn": "six-1.16.0-pyhd3eb1b0_1.conda",
   "license": "MIT",
@@ -97,7 +97,7 @@
         "size_in_bytes": 34549
       },
       {
-        "_path": "Lib/site-packages/__pycache__/six.cpython-312.pyc",
+        "_path": "Lib/site-packages/__pycache__/six.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

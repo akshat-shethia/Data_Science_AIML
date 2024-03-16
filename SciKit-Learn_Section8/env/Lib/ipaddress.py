@@ -16,7 +16,6 @@ import functools
 IPV4LENGTH = 32
 IPV6LENGTH = 128
 
-
 class AddressValueError(ValueError):
     """A Value Error related to the address."""
 
@@ -132,7 +131,7 @@ def v4_int_to_packed(address):
 
     """
     try:
-        return address.to_bytes(4)  # big endian
+        return address.to_bytes(4, 'big')
     except OverflowError:
         raise ValueError("Address negative or too large for IPv4")
 
@@ -148,7 +147,7 @@ def v6_int_to_packed(address):
 
     """
     try:
-        return address.to_bytes(16)  # big endian
+        return address.to_bytes(16, 'big')
     except OverflowError:
         raise ValueError("Address negative or too large for IPv6")
 
@@ -1077,16 +1076,15 @@ class _BaseNetwork(_IPAddressBase):
 
     @property
     def is_private(self):
-        """Test if this network belongs to a private range.
+        """Test if this address is allocated for private networks.
 
         Returns:
-            A boolean, True if the network is reserved per
+            A boolean, True if the address is reserved per
             iana-ipv4-special-registry or iana-ipv6-special-registry.
 
         """
-        return any(self.network_address in priv_network and
-                   self.broadcast_address in priv_network
-                   for priv_network in self._constants._private_networks)
+        return (self.network_address.is_private and
+                self.broadcast_address.is_private)
 
     @property
     def is_global(self):
@@ -1122,15 +1120,6 @@ class _BaseNetwork(_IPAddressBase):
         """
         return (self.network_address.is_loopback and
                 self.broadcast_address.is_loopback)
-
-
-class _BaseConstants:
-
-    _private_networks = []
-
-
-_BaseNetwork._constants = _BaseConstants
-
 
 class _BaseV4:
 
@@ -1222,7 +1211,7 @@ class _BaseV4:
         """
         if not octet_str:
             raise ValueError("Empty octet not permitted")
-        # Reject non-ASCII digits.
+        # Whitelist the characters, since int() allows a lot of bizarre stuff.
         if not (octet_str.isascii() and octet_str.isdigit()):
             msg = "Only decimal digits permitted in %r"
             raise ValueError(msg % octet_str)
@@ -1304,7 +1293,7 @@ class IPv4Address(_BaseV4, _BaseAddress):
         # Constructing from a packed address
         if isinstance(address, bytes):
             self._check_packed_address(address, 4)
-            self._ip = int.from_bytes(address)  # big endian
+            self._ip = int.from_bytes(address, 'big')
             return
 
         # Assume input argument to be string or any object representation
@@ -1571,7 +1560,6 @@ class _IPv4Constants:
 
 
 IPv4Address._constants = _IPv4Constants
-IPv4Network._constants = _IPv4Constants
 
 
 class _BaseV6:
@@ -1733,7 +1721,7 @@ class _BaseV6:
               [0..FFFF].
 
         """
-        # Reject non-ASCII digits.
+        # Whitelist the characters, since int() allows a lot of bizarre stuff.
         if not cls._HEX_DIGITS.issuperset(hextet_str):
             raise ValueError("Only hex digits permitted in %r" % hextet_str)
         # We do the length check second, since the invalid character error
@@ -1820,6 +1808,9 @@ class _BaseV6:
 
     def _explode_shorthand_ip_string(self):
         """Expand a shortened IPv6 address.
+
+        Args:
+            ip_str: A string, the IPv6 address.
 
         Returns:
             A string, the expanded IPv6 address.
@@ -1938,9 +1929,6 @@ class IPv6Address(_BaseV6, _BaseAddress):
             return False
         return self._scope_id == getattr(other, '_scope_id', None)
 
-    def __reduce__(self):
-        return (self.__class__, (str(self),))
-
     @property
     def scope_id(self):
         """Identifier of a particular zone of the address's scope.
@@ -2011,13 +1999,9 @@ class IPv6Address(_BaseV6, _BaseAddress):
 
         Returns:
             A boolean, True if the address is reserved per
-            iana-ipv6-special-registry, or is ipv4_mapped and is
-            reserved in the iana-ipv4-special-registry.
+            iana-ipv6-special-registry.
 
         """
-        ipv4_mapped = self.ipv4_mapped
-        if ipv4_mapped is not None:
-            return ipv4_mapped.is_private
         return any(self in net for net in self._constants._private_networks)
 
     @property
@@ -2296,4 +2280,3 @@ class _IPv6Constants:
 
 
 IPv6Address._constants = _IPv6Constants
-IPv6Network._constants = _IPv6Constants

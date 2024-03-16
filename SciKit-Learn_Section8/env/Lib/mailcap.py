@@ -7,12 +7,6 @@ import re
 __all__ = ["getcaps","findmatch"]
 
 
-_DEPRECATION_MSG = ('The {name} module is deprecated and will be removed in '
-                    'Python {remove}. See the mimetypes module for an '
-                    'alternative.')
-warnings._deprecated(__name__, _DEPRECATION_MSG, remove=(3, 13))
-
-
 def lineno_sort_key(entry):
     # Sort in ascending order, with unspecified entries at the end
     if 'lineno' in entry:
@@ -90,7 +84,9 @@ def _readmailcapfile(fp, lineno):
     the viewing command is stored with the key "view".
     """
     caps = {}
-    while line := fp.readline():
+    while 1:
+        line = fp.readline()
+        if not line: break
         # Ignore comments and blank lines
         if line[0] == '#' or line.strip() == '':
             continue

@@ -18,7 +18,7 @@
     "Lib/site-packages/pandocfilters-1.5.0.dist-info/top_level.txt",
     "Lib/site-packages/pandocfilters.py",
     ".nonadmin",
-    "Lib/site-packages/__pycache__/pandocfilters.cpython-312.pyc"
+    "Lib/site-packages/__pycache__/pandocfilters.cpython-39.pyc"
   ],
   "fn": "pandocfilters-1.5.0-pyhd3eb1b0_0.conda",
   "license": "BSD-3-Clause",
@@ -97,7 +97,7 @@
         "size_in_bytes": 9052
       },
       {
-        "_path": "Lib/site-packages/__pycache__/pandocfilters.cpython-312.pyc",
+        "_path": "Lib/site-packages/__pycache__/pandocfilters.cpython-39.pyc",
         "path_type": "pyc_file"
       }
     ],

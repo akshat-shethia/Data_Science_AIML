@@ -32,11 +32,6 @@
            circular uniform
            von Mises
 
-    discrete distributions
-    ----------------------
-           binomial
-
-
 General notes on the underlying Mersenne Twister core generator:
 
 * The period is 2**19937-1.
@@ -53,11 +48,9 @@ General notes on the underlying Mersenne Twister core generator:
 from warnings import warn as _warn
 from math import log as _log, exp as _exp, pi as _pi, e as _e, ceil as _ceil
 from math import sqrt as _sqrt, acos as _acos, cos as _cos, sin as _sin
-from math import tau as TWOPI, floor as _floor, isfinite as _isfinite
-from math import lgamma as _lgamma, fabs as _fabs, log2 as _log2
+from math import tau as TWOPI, floor as _floor
 from os import urandom as _urandom
-from _collections_abc import Sequence as _Sequence
-from operator import index as _index
+from _collections_abc import Set as _Set, Sequence as _Sequence
 from itertools import accumulate as _accumulate, repeat as _repeat
 from bisect import bisect as _bisect
 import os as _os
@@ -65,7 +58,7 @@ import _random
 
 try:
     # hashlib is pretty heavy to load, try lean internal module first
-    from _sha2 import sha512 as _sha512
+    from _sha512 import sha512 as _sha512
 except ImportError:
     # fallback to official implementation
     from hashlib import sha512 as _sha512
@@ -74,7 +67,6 @@ __all__ = [
     "Random",
     "SystemRandom",
     "betavariate",
-    "binomialvariate",
     "choice",
     "choices",
     "expovariate",
@@ -104,7 +96,6 @@ LOG4 = _log(4.0)
 SG_MAGICCONST = 1.0 + _log(4.5)
 BPF = 53        # Number of bits in a float
 RECIP_BPF = 2 ** -BPF
-_ONE = 1
 
 
 class Random(_random.Random):
@@ -161,11 +152,15 @@ class Random(_random.Random):
         elif version == 2 and isinstance(a, (str, bytes, bytearray)):
             if isinstance(a, str):
                 a = a.encode()
-            a = int.from_bytes(a + _sha512(a).digest())
+            a = int.from_bytes(a + _sha512(a).digest(), 'big')
 
         elif not isinstance(a, (type(None), int, float, str, bytes, bytearray)):
-            raise TypeError('The only supported seed types are: None,\n'
-                            'int, float, str, bytes, and bytearray.')
+            _warn('Seeding based on hashing is deprecated\n'
+                  'since Python 3.9 and will be removed in a subsequent '
+                  'version. The only \n'
+                  'supported seed types are: None, '
+                  'int, float, str, bytes, and bytearray.',
+                  DeprecationWarning, 2)
 
         super().seed(a)
         self.gauss_next = None
@@ -240,17 +235,19 @@ class Random(_random.Random):
                 break
 
     def _randbelow_with_getrandbits(self, n):
-        "Return a random int in the range [0,n).  Defined for n > 0."
+        "Return a random int in the range [0,n).  Returns 0 if n==0."
 
+        if not n:
+            return 0
         getrandbits = self.getrandbits
-        k = n.bit_length()
+        k = n.bit_length()  # don't use (n-1) here because n can be 1
         r = getrandbits(k)  # 0 <= r < 2**k
         while r >= n:
             r = getrandbits(k)
         return r
 
     def _randbelow_without_getrandbits(self, n, maxsize=1<<BPF):
-        """Return a random int in the range [0,n).  Defined for n > 0.
+        """Return a random int in the range [0,n).  Returns 0 if n==0.
 
         The implementation does not use getrandbits, but only random.
         """
@@ -261,6 +258,8 @@ class Random(_random.Random):
                 "enough bits to choose from a population range this large.\n"
                 "To remove the range limitation, add a getrandbits() method.")
             return _floor(random() * n)
+        if n == 0:
+            return 0
         rem = maxsize % n
         limit = (maxsize - rem) / maxsize   # int(limit * maxsize) % n == 0
         r = random()
@@ -288,45 +287,48 @@ class Random(_random.Random):
 
     ## -------------------- integer methods  -------------------
 
-    def randrange(self, start, stop=None, step=_ONE):
-        """Choose a random item from range(stop) or range(start, stop[, step]).
+    def randrange(self, start, stop=None, step=1):
+        """Choose a random item from range(start, stop[, step]).
 
-        Roughly equivalent to ``choice(range(start, stop, step))`` but
-        supports arbitrarily large ranges and is optimized for common cases.
+        This fixes the problem with randint() which includes the
+        endpoint; in Python this is usually not what you want.
 
         """
 
         # This code is a bit messy to make it fast for the
         # common case while still doing adequate error checking.
-        istart = _index(start)
+        istart = int(start)
+        if istart != start:
+            raise ValueError("non-integer arg 1 for randrange()")
         if stop is None:
-            # We don't check for "step != 1" because it hasn't been
-            # type checked and converted to an integer yet.
-            if step is not _ONE:
-                raise TypeError("Missing a non-None stop argument")
             if istart > 0:
                 return self._randbelow(istart)
             raise ValueError("empty range for randrange()")
 
-        # Stop argument supplied.
-        istop = _index(stop)
+        # stop argument supplied.
+        istop = int(stop)
+        if istop != stop:
+            raise ValueError("non-integer stop for randrange()")
         width = istop - istart
-        istep = _index(step)
-        # Fast path.
-        if istep == 1:
-            if width > 0:
-                return istart + self._randbelow(width)
-            raise ValueError(f"empty range in randrange({start}, {stop})")
+        if step == 1 and width > 0:
+            return istart + self._randbelow(width)
+        if step == 1:
+            raise ValueError("empty range for randrange() (%d, %d, %d)" % (istart, istop, width))
 
         # Non-unit step argument supplied.
+        istep = int(step)
+        if istep != step:
+            raise ValueError("non-integer step for randrange()")
         if istep > 0:
             n = (width + istep - 1) // istep
         elif istep < 0:
             n = (width + istep + 1) // istep
         else:
             raise ValueError("zero step for randrange()")
+
         if n <= 0:
-            raise ValueError(f"empty range in randrange({start}, {stop}, {step})")
+            raise ValueError("empty range for randrange()")
+
         return istart + istep * self._randbelow(n)
 
     def randint(self, a, b):
@@ -340,24 +342,37 @@ class Random(_random.Random):
 
     def choice(self, seq):
         """Choose a random element from a non-empty sequence."""
-
-        # As an accommodation for NumPy, we don't use "if not seq"
-        # because bool(numpy.array()) raises a ValueError.
-        if not len(seq):
-            raise IndexError('Cannot choose from an empty sequence')
+        # raises IndexError if seq is empty
         return seq[self._randbelow(len(seq))]
 
-    def shuffle(self, x):
-        """Shuffle list x in place, and return None."""
+    def shuffle(self, x, random=None):
+        """Shuffle list x in place, and return None.
 
-        randbelow = self._randbelow
-        for i in reversed(range(1, len(x))):
-            # pick an element in x[:i+1] with which to exchange x[i]
-            j = randbelow(i + 1)
-            x[i], x[j] = x[j], x[i]
+        Optional argument random is a 0-argument function returning a
+        random float in [0.0, 1.0); if it is the default None, the
+        standard random.random will be used.
+
+        """
+
+        if random is None:
+            randbelow = self._randbelow
+            for i in reversed(range(1, len(x))):
+                # pick an element in x[:i+1] with which to exchange x[i]
+                j = randbelow(i + 1)
+                x[i], x[j] = x[j], x[i]
+        else:
+            _warn('The *random* parameter to shuffle() has been deprecated\n'
+                  'since Python 3.9 and will be removed in a subsequent '
+                  'version.',
+                  DeprecationWarning, 2)
+            floor = _floor
+            for i in reversed(range(1, len(x))):
+                # pick an element in x[:i+1] with which to exchange x[i]
+                j = floor(random() * (i + 1))
+                x[i], x[j] = x[j], x[i]
 
     def sample(self, population, k, *, counts=None):
-        """Chooses k unique random elements from a population sequence.
+        """Chooses k unique random elements from a population sequence or set.
 
         Returns a new list containing elements from the population while
         leaving the original population unchanged.  The resulting list is
@@ -409,9 +424,13 @@ class Random(_random.Random):
         # too many calls to _randbelow(), making them slower and
         # causing them to eat more entropy than necessary.
 
+        if isinstance(population, _Set):
+            _warn('Sampling from a set deprecated\n'
+                  'since Python 3.9 and will be removed in a subsequent version.',
+                  DeprecationWarning, 2)
+            population = tuple(population)
         if not isinstance(population, _Sequence):
-            raise TypeError("Population must be a sequence.  "
-                            "For dicts or sets, use sorted(d).")
+            raise TypeError("Population must be a sequence.  For dicts or sets, use sorted(d).")
         n = len(population)
         if counts is not None:
             cum_counts = list(_accumulate(counts))
@@ -481,8 +500,6 @@ class Random(_random.Random):
         total = cum_weights[-1] + 0.0   # convert to float
         if total <= 0.0:
             raise ValueError('Total of weights must be greater than zero')
-        if not _isfinite(total):
-            raise ValueError('Total of weights must be finite')
         bisect = _bisect
         hi = n - 1
         return [population[bisect(cum_weights, random() * total, 0, hi)]
@@ -492,14 +509,7 @@ class Random(_random.Random):
     ## -------------------- real-valued distributions  -------------------
 
     def uniform(self, a, b):
-        """Get a random number in the range [a, b) or [a, b] depending on rounding.
-
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = (a + b) / 2
-            Var[X] = (b - a) ** 2 / 12
-
-        """
+        "Get a random number in the range [a, b) or [a, b] depending on rounding."
         return a + (b - a) * self.random()
 
     def triangular(self, low=0.0, high=1.0, mode=None):
@@ -509,11 +519,6 @@ class Random(_random.Random):
         and having a given mode value in-between.
 
         http://en.wikipedia.org/wiki/Triangular_distribution
-
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = (low + high + mode) / 3
-            Var[X] = (low**2 + high**2 + mode**2 - low*high - low*mode - high*mode) / 18
 
         """
         u = self.random()
@@ -527,7 +532,7 @@ class Random(_random.Random):
             low, high = high, low
         return low + (high - low) * _sqrt(u * c)
 
-    def normalvariate(self, mu=0.0, sigma=1.0):
+    def normalvariate(self, mu, sigma):
         """Normal distribution.
 
         mu is the mean, and sigma is the standard deviation.
@@ -548,7 +553,7 @@ class Random(_random.Random):
                 break
         return mu + z * sigma
 
-    def gauss(self, mu=0.0, sigma=1.0):
+    def gauss(self, mu, sigma):
         """Gaussian distribution.
 
         mu is the mean, and sigma is the standard deviation.  This is
@@ -596,7 +601,7 @@ class Random(_random.Random):
         """
         return _exp(self.normalvariate(mu, sigma))
 
-    def expovariate(self, lambd=1.0):
+    def expovariate(self, lambd):
         """Exponential distribution.
 
         lambd is 1.0 divided by the desired mean.  It should be
@@ -605,15 +610,12 @@ class Random(_random.Random):
         positive infinity if lambd is positive, and from negative
         infinity to 0 if lambd is negative.
 
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = 1 / lambd
-            Var[X] = 1 / lambd ** 2
-
         """
+        # lambd: rate lambd = 1/mean
+        # ('lambda' is a Python reserved word)
+
         # we use 1-random() instead of random() to preclude the
         # possibility of taking the log of zero.
-
         return -_log(1.0 - self.random()) / lambd
 
     def vonmisesvariate(self, mu, kappa):
@@ -669,12 +671,8 @@ class Random(_random.Random):
           pdf(x) =  --------------------------------------
                       math.gamma(alpha) * beta ** alpha
 
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = alpha * beta
-            Var[X] = alpha * beta ** 2
-
         """
+        # alpha > 0, beta > 0, mean is alpha*beta, variance is alpha*beta**2
 
         # Warning: a few older sources define the gamma distribution in terms
         # of alpha > -1.0
@@ -692,7 +690,7 @@ class Random(_random.Random):
             bbb = alpha - LOG4
             ccc = alpha + ainv
 
-            while True:
+            while 1:
                 u1 = random()
                 if not 1e-7 < u1 < 0.9999999:
                     continue
@@ -733,11 +731,6 @@ class Random(_random.Random):
         Conditions on the parameters are alpha > 0 and beta > 0.
         Returned values range between 0 and 1.
 
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = alpha / (alpha + beta)
-            Var[X] = alpha * beta / ((alpha + beta)**2 * (alpha + beta + 1))
-
         """
         ## See
         ## http://mail.python.org/pipermail/python-bugs-list/2001-January/003752.html
@@ -764,7 +757,7 @@ class Random(_random.Random):
         # Jain, pg. 495
 
         u = 1.0 - self.random()
-        return u ** (-1.0 / alpha)
+        return 1.0 / u ** (1.0 / alpha)
 
     def weibullvariate(self, alpha, beta):
         """Weibull distribution.
@@ -776,97 +769,6 @@ class Random(_random.Random):
 
         u = 1.0 - self.random()
         return alpha * (-_log(u)) ** (1.0 / beta)
-
-
-    ## -------------------- discrete  distributions  ---------------------
-
-    def binomialvariate(self, n=1, p=0.5):
-        """Binomial random variable.
-
-        Gives the number of successes for *n* independent trials
-        with the probability of success in each trial being *p*:
-
-            sum(random() < p for i in range(n))
-
-        Returns an integer in the range:   0 <= X <= n
-
-        The mean (expected value) and variance of the random variable are:
-
-            E[X] = n * p
-            Var[x] = n * p * (1 - p)
-
-        """
-        # Error check inputs and handle edge cases
-        if n < 0:
-            raise ValueError("n must be non-negative")
-        if p <= 0.0 or p >= 1.0:
-            if p == 0.0:
-                return 0
-            if p == 1.0:
-                return n
-            raise ValueError("p must be in the range 0.0 <= p <= 1.0")
-
-        random = self.random
-
-        # Fast path for a common case
-        if n == 1:
-            return _index(random() < p)
-
-        # Exploit symmetry to establish:  p <= 0.5
-        if p > 0.5:
-            return n - self.binomialvariate(n, 1.0 - p)
-
-        if n * p < 10.0:
-            # BG: Geometric method by Devroye with running time of O(np).
-            # https://dl.acm.org/doi/pdf/10.1145/42372.42381
-            x = y = 0
-            c = _log2(1.0 - p)
-            if not c:
-                return x
-            while True:
-                y += _floor(_log2(random()) / c) + 1
-                if y > n:
-                    return x
-                x += 1
-
-        # BTRS: Transformed rejection with squeeze method by Wolfgang Hörmann
-        # https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.47.8407&rep=rep1&type=pdf
-        assert n*p >= 10.0 and p <= 0.5
-        setup_complete = False
-
-        spq = _sqrt(n * p * (1.0 - p))  # Standard deviation of the distribution
-        b = 1.15 + 2.53 * spq
-        a = -0.0873 + 0.0248 * b + 0.01 * p
-        c = n * p + 0.5
-        vr = 0.92 - 4.2 / b
-
-        while True:
-
-            u = random()
-            u -= 0.5
-            us = 0.5 - _fabs(u)
-            k = _floor((2.0 * a / us + b) * u + c)
-            if k < 0 or k > n:
-                continue
-
-            # The early-out "squeeze" test substantially reduces
-            # the number of acceptance condition evaluations.
-            v = random()
-            if us >= 0.07 and v <= vr:
-                return k
-
-            # Acceptance-rejection test.
-            # Note, the original paper erroneously omits the call to log(v)
-            # when comparing to the log of the rescaled binomial distribution.
-            if not setup_complete:
-                alpha = (2.83 + 5.1 / b) * spq
-                lpq = _log(p / (1.0 - p))
-                m = _floor((n + 1) * p)         # Mode of the distribution
-                h = _lgamma(m + 1) + _lgamma(n - m + 1)
-                setup_complete = True           # Only needs to be done once
-            v *= alpha / (a / (us * us) + b)
-            if _log(v) <= h - _lgamma(k + 1) - _lgamma(n - k + 1) + (k - m) * lpq:
-                return k
 
 
 ## ------------------------------------------------------------------
@@ -883,15 +785,15 @@ class SystemRandom(Random):
     """
 
     def random(self):
-        """Get the next random number in the range 0.0 <= X < 1.0."""
-        return (int.from_bytes(_urandom(7)) >> 3) * RECIP_BPF
+        """Get the next random number in the range [0.0, 1.0)."""
+        return (int.from_bytes(_urandom(7), 'big') >> 3) * RECIP_BPF
 
     def getrandbits(self, k):
         """getrandbits(k) -> x.  Generates an int with k random bits."""
         if k < 0:
             raise ValueError('number of bits must be non-negative')
         numbytes = (k + 7) // 8                       # bits / 8 and rounded up
-        x = int.from_bytes(_urandom(numbytes))
+        x = int.from_bytes(_urandom(numbytes), 'big')
         return x >> (numbytes * 8 - k)                # trim excess bits
 
     def randbytes(self, n):
@@ -935,7 +837,6 @@ vonmisesvariate = _inst.vonmisesvariate
 gammavariate = _inst.gammavariate
 gauss = _inst.gauss
 betavariate = _inst.betavariate
-binomialvariate = _inst.binomialvariate
 paretovariate = _inst.paretovariate
 weibullvariate = _inst.weibullvariate
 getstate = _inst.getstate
@@ -952,7 +853,7 @@ def _test_generator(n, func, args):
     from time import perf_counter
 
     t0 = perf_counter()
-    data = [func(*args) for i in _repeat(None, n)]
+    data = [func(*args) for i in range(n)]
     t1 = perf_counter()
 
     xbar = mean(data)
@@ -960,17 +861,15 @@ def _test_generator(n, func, args):
     low = min(data)
     high = max(data)
 
-    print(f'{t1 - t0:.3f} sec, {n} times {func.__name__}{args!r}')
+    print(f'{t1 - t0:.3f} sec, {n} times {func.__name__}')
     print('avg %g, stddev %g, min %g, max %g\n' % (xbar, sigma, low, high))
 
 
-def _test(N=10_000):
+def _test(N=2000):
     _test_generator(N, random, ())
     _test_generator(N, normalvariate, (0.0, 1.0))
     _test_generator(N, lognormvariate, (0.0, 1.0))
     _test_generator(N, vonmisesvariate, (0.0, 1.0))
-    _test_generator(N, binomialvariate, (15, 0.60))
-    _test_generator(N, binomialvariate, (100, 0.75))
     _test_generator(N, gammavariate, (0.01, 1.0))
     _test_generator(N, gammavariate, (0.1, 1.0))
     _test_generator(N, gammavariate, (0.1, 2.0))
