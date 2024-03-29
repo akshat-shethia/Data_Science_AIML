@@ -1,0 +1,13 @@
+prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Data_Pre_Processing_In_Python/env/Library
+exec_prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Data_Pre_Processing_In_Python/env/Library
+libdir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Data_Pre_Processing_In_Python/env/Library/lib
+sharedlibdir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Data_Pre_Processing_In_Python/env/Library/lib
+includedir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Data_Pre_Processing_In_Python/env/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
