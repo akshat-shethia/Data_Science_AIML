@@ -1,0 +1,12 @@
+prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library
+exec_prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library
+libdir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library/lib
+includedir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library/include/libpng16
+
+Name: libpng
+Description: Loads and saves PNG files
+Version: 1.6.39
+Requires.private: zlib
+Libs: -L${libdir} -lpng16
+Libs.private: -lz
+Cflags: -I${includedir}

@@ -1,0 +1,12 @@
+prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library
+exec_prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library
+libdir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library/lib
+includedir=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Multiple_Regression/env/Library/include
+
+Name: libzmq
+Description: 0MQ c++ library
+Version: 4.3.5
+Libs: -L${libdir} -lzmq
+Libs.private: -lstdc++ 
+Requires.private: 
+Cflags: -I${includedir} 
