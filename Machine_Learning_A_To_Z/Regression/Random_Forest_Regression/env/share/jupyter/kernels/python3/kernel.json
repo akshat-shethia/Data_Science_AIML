@@ -1,0 +1,14 @@
+{
+ "argv": [
+  "C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Random_Forest_Regression/env\\python.exe",
+  "-m",
+  "ipykernel_launcher",
+  "-f",
+  "{connection_file}"
+ ],
+ "display_name": "Python 3 (ipykernel)",
+ "language": "python",
+ "metadata": {
+  "debugger": false
+ }
+}

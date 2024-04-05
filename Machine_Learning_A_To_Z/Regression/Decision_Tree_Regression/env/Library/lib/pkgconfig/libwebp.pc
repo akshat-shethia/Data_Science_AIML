@@ -1,0 +1,12 @@
+prefix=C:/miniconda/MINICONDA_WORKSPACE/Machine_Learning_A_To_Z/Regression/Decision_Tree_Regression/env/Library
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libwebp
+Description: Library for the WebP graphics format
+Version: 1.3.2
+Requires.private: libsharpyuv
+Cflags: -I${includedir}
+Libs: -L${libdir} -llibwebp
+Libs.private:   
