@@ -1,0 +1,14 @@
+{
+ "argv": [
+  "C:/Users/Akshat Shethia/Desktop/UDEMY/Selenium WebDriver Selenium Automation Testing with Python/MY_env/env\\python.exe",
+  "-m",
+  "ipykernel_launcher",
+  "-f",
+  "{connection_file}"
+ ],
+ "display_name": "Python 3 (ipykernel)",
+ "language": "python",
+ "metadata": {
+  "debugger": false
+ }
+}
