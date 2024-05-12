@@ -34,4 +34,5 @@ class TestNegativeScenarios:
 
         # Error message text
         invalid_text = driver.find_element(By.XPATH, "/html//div[@id='error']")
+        # Using the error message which was inherited
         assert invalid_text.text == error_message, "There was no error message received"
